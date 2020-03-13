@@ -18,7 +18,7 @@ namespace MyAdminBoilerPlate.Controllers
 
         public string Index()
         {
-            return userRepository.GetUser(1).LastName;
+            return userRepository.GetUser(1).LastName + " " + userRepository.GetUser(1).FirstName;
         }
     }
 }

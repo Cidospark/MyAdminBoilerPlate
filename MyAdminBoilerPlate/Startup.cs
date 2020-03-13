@@ -32,17 +32,17 @@ namespace MyAdminBoilerPlate
 
             // FileServerOptions combines the functionality of:
             // useDefaultFiles, useStaticFiles, directoryBrowser middleware.
-            //DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
-            //defaultFilesOptions.DefaultFileNames.Clear();
-            //defaultFilesOptions.DefaultFileNames.Add("foo.html");
-            //app.UseDefaultFiles(defaultFilesOptions);
+            DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
+            defaultFilesOptions.DefaultFileNames.Clear();
+            defaultFilesOptions.DefaultFileNames.Add("foo.html");
+            app.UseDefaultFiles(defaultFilesOptions);
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
 
             app.Run(async (context) =>
             {
                 // the below error will never run except if a default file is not found
-                //throw new Exception("Some error occured during processing");
+                throw new Exception("Some error occured during processing");
                 await context.Response.WriteAsync("Hello World!");
             });
         }
