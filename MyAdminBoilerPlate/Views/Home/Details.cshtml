@@ -1,1 +1,14 @@
-﻿<h1>Details View</h1>
+﻿@model MyAdminBoilerPlate.ViewModels.HomeDetailsViewModel
+<!--
+<title>@ViewData["Title"]</title>
+<h1>@ViewData["Title"]</h1>
+-->
+
+    <title>@Model.pageTitle</title>
+    <h1>@Model.pageTitle</h1>
+
+<ul style="list-style:none; padding-left:0px;">
+    <li class="">Name : @Model.user.FirstName @Model.user.LastName</li>
+    <li>PhoneNumber : @Model.user.PhoneNumber </li>
+    <li>Nationality : @Model.user.Nationality </li>
+</ul>

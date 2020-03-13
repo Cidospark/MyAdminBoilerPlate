@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyAdminBoilerPlate.Models;
+using MyAdminBoilerPlate.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,15 @@ namespace MyAdminBoilerPlate.Controllers
 
         public IActionResult Details()
         {
-            var model = userRepository.GetUser(1);
-            return View(model);
+            HomeDetailsViewModel hdvm = new HomeDetailsViewModel()
+            {
+                pageTitle = "Users Details",
+                user = userRepository.GetUser(1)
+            };
+
+            //var model = userRepository.GetUser(1);
+            //ViewData["Title"] = "Users Details";
+            return View(hdvm);
         }
     }
 }
