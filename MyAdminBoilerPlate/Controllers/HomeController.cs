@@ -20,5 +20,11 @@ namespace MyAdminBoilerPlate.Controllers
         {
             return userRepository.GetUser(1).LastName + " " + userRepository.GetUser(1).FirstName;
         }
+
+        public IActionResult Details()
+        {
+            var model = userRepository.GetUser(1);
+            return View(model);
+        }
     }
 }
