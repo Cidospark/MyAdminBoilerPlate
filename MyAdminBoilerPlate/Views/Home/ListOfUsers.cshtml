@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<MyAdminBoilerPlate.Models.User>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>ViewBag.Title = "List of users"</title>
-</head>
-<body>
+@{
+    ViewBag.Title = "List of users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
     <table class="table">
         <thead>
             <tr>
@@ -29,5 +28,3 @@
             }
         </tbody>
     </table>
-</body>
-</html>
