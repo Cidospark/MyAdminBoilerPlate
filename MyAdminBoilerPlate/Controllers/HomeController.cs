@@ -34,5 +34,11 @@ namespace MyAdminBoilerPlate.Controllers
             //ViewData["Title"] = "Users Details";
             return View(hdvm);
         }
+
+        public IActionResult ListOfUsers()
+        {
+            var users = userRepository.GetAllUsers();
+            return View(users);
+        }
     }
 }

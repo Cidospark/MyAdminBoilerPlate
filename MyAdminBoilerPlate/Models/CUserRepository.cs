@@ -50,6 +50,12 @@ namespace MyAdminBoilerPlate.Models
                 }
             };
         }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _userList;
+        }
+
         public User GetUser(int Id)
         {
             return _userList.FirstOrDefault(u => u.UserId == Id);

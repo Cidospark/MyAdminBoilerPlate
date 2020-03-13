@@ -8,5 +8,6 @@ namespace MyAdminBoilerPlate.Models
     public interface IUserRepository
     {
         User GetUser(int Id);
+        IEnumerable<User> GetAllUsers();
     }
 }
