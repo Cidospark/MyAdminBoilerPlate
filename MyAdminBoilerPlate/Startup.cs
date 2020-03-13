@@ -37,7 +37,11 @@ namespace MyAdminBoilerPlate
             defaultFilesOptions.DefaultFileNames.Add("foo.html");
             app.UseDefaultFiles(defaultFilesOptions);
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.Run(async (context) =>
             {

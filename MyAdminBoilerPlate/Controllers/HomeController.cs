@@ -17,23 +17,26 @@ namespace MyAdminBoilerPlate.Controllers
             this.userRepository = userRepository;
         }
 
+
         public string Index()
         {
             return userRepository.GetUser(1).LastName + " " + userRepository.GetUser(1).FirstName;
         }
 
-        public IActionResult Details()
+
+        public IActionResult Details(int? id)
         {
             HomeDetailsViewModel hdvm = new HomeDetailsViewModel()
             {
                 pageTitle = "Users Details",
-                user = userRepository.GetUser(1)
+                user = userRepository.GetUser(id??1)
             };
 
             //var model = userRepository.GetUser(1);
             //ViewData["Title"] = "Users Details";
             return View(hdvm);
         }
+
 
         public IActionResult ListOfUsers()
         {
