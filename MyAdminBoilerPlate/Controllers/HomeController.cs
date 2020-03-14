@@ -41,6 +41,7 @@ namespace MyAdminBoilerPlate.Controllers
         public IActionResult ListOfUsers()
         {
             var users = userRepository.GetAllUsers();
+            TempData["numOfUsers"] = userRepository.GetAllUsers().Count();
             return View(users);
         }
 
