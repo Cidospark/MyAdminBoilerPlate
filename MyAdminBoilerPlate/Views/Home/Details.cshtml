@@ -4,11 +4,18 @@
 <h1>@ViewData["Title"]</h1>
 -->
 
-    <title>@Model.pageTitle</title>
-    <h1>@Model.pageTitle</h1>
+<title>@Model.pageTitle</title>
+<h1>@Model.pageTitle</h1>
 
 <ul style="list-style:none; padding-left:0px;">
     <li class="">Name : @Model.user.FirstName @Model.user.LastName</li>
     <li>PhoneNumber : @Model.user.PhoneNumber </li>
     <li>Nationality : @Model.user.Nationality </li>
+    <li><img src="~/images/@Model.user.Photo" width="150" asp-append-version="true" /></li>
 </ul>
+<p>
+<a style="color:#aaf; cursor:pointer;" id="backBtn">Go back</a>
+</p>
+@section Scripts{
+    <script src="~/js/siteScript.js"></script>
+}

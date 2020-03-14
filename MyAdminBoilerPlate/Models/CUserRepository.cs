@@ -22,7 +22,8 @@ namespace MyAdminBoilerPlate.Models
                     Nationality = "Nigerian", 
                     Street = "10, Ijeoma Odika Street", 
                     City = "Lagos", 
-                    Country="Nigeria" 
+                    Country="Nigeria" ,
+                    Photo="pix1.jpg"
                 },
                 new User(){ 
                     UserId = 2, 
@@ -34,7 +35,8 @@ namespace MyAdminBoilerPlate.Models
                     Nationality = "Nigerian", 
                     Street = "10, Ijeoma Odika Street", 
                     City = "Lagos", 
-                    Country="Nigeria" 
+                    Country="Nigeria" ,
+                    Photo="pix2.jpg"
                 },
                 new User(){ 
                     UserId = 3, 
@@ -46,7 +48,8 @@ namespace MyAdminBoilerPlate.Models
                     Nationality = "Ghana", 
                     Street = "10, Accra Street", 
                     City = "Accra",
-                    Country="Ghana" 
+                    Country="Ghana" ,
+                    Photo="pix1.jpg"
                 }
             };
         }
