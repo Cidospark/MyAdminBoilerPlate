@@ -63,7 +63,7 @@ namespace MyAdminBoilerPlate.Controllers
 
         public IActionResult Delete(int Id)
         {
-            if(userRepository.DeleteUser(Id) == 0)
+            if(userRepository.DeleteUser(Id) == null)
             {
                 TempData["message"] = "Delete operation failed!"; 
                 return RedirectToAction("ListOfUsers");
@@ -84,7 +84,7 @@ namespace MyAdminBoilerPlate.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (userRepository.EditUser(userModel) == 0)
+                if (userRepository.EditUser(userModel) == null)
                 {
                     TempData["message"] = "Update operation failed!";
                     return RedirectToAction("ListOfUsers");
