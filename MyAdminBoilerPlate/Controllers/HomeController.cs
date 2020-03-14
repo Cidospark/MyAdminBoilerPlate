@@ -55,5 +55,15 @@ namespace MyAdminBoilerPlate.Controllers
             userRepository.AddUser(userModel);
             return RedirectToAction("ListOfUsers");
         }
+
+        public IActionResult Delete(int Id)
+        {
+            if(userRepository.DeleteUser(Id) == 0)
+            {
+                TempData["message"] = "Delete operation failed!";
+            }
+            TempData["message"] = "Deleted successfully!";
+            return RedirectToAction("ListOfUsers");
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace MyAdminBoilerPlate.Models
         User GetUser(int Id);
         IEnumerable<User> GetAllUsers();
         void AddUser(User user);
+        int DeleteUser(int Id);
     }
 }

@@ -2,17 +2,26 @@
 @{
     ViewBag.Title = "List of users";
 }
-    <table class="table" cellspacing="20">
-        <thead>
-            <tr>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var singleUser in Model)
-            {
+
+@if (TempData["message"] != null)
+{
+    <div id="msgBox" style="display:flex; padding:10px; justify-content:space-between; border:1px solid grey; background:#fcc; border-radius:4px;">
+        <div>@TempData["message"]</div>
+        <div style="cursor:pointer;border:1px solid" id="closeBox">X</div>
+    </div>
+}
+
+<table class="table" cellspacing="20">
+    <thead>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var singleUser in Model)
+        {
             <tr>
                 <td>@singleUser.LastName</td>
                 <td>@singleUser.FirstName</td>
@@ -22,10 +31,19 @@
                         <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
                         <a href="#">Edit</a>
                         <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
-                        <a href="#">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@singleUser.UserId" onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">Delete</a>
                     </div>
                 </td>
             </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+
+<script>
+const btnClose = document.querySelector("#closeBox");
+const boxMsg = document.querySelector("#msgBox");
+
+    btnClose.addEventListener("click", function () {
+    boxMsg.style.display = "none";
+    })
+</script>

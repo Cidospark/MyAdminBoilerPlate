@@ -64,6 +64,16 @@ namespace MyAdminBoilerPlate.Models
             //return user;
         }
 
+        public int DeleteUser(int Id)
+        {
+            var user = _userList.Find(u => u.UserId == Id);
+            if (!_userList.Remove(user))
+            {
+                return 0;
+            }
+            return 1;
+        }
+
         public IEnumerable<User> GetAllUsers()
         {
             return _userList;
