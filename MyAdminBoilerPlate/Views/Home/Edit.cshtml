@@ -1,0 +1,22 @@
+﻿@model User
+@{
+    ViewBag.Title = "Edit user";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <form class="" method="post" asp-action="edit">
+        <input asp-for="UserId"  hidden />
+        <p>
+            <input asp-for="FirstName" placeholder="First Name" autofocus />
+            <input asp-for="LastName" placeholder="Last Name" />
+        </p>
+        <p>
+            <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+            </select>
+        </p>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+</div>

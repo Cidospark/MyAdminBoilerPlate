@@ -74,6 +74,21 @@ namespace MyAdminBoilerPlate.Models
             return 1;
         }
 
+        public int EditUser(User user)
+        {
+            var editedUser = _userList.Where(u => u.UserId == user.UserId).FirstOrDefault();
+            if (editedUser == null)
+            {
+                return 0;
+            }
+
+            editedUser.LastName = user.LastName;
+            editedUser.FirstName = user.FirstName;
+            editedUser.Gender = user.Gender;
+            return 1;
+
+        }
+
         public IEnumerable<User> GetAllUsers()
         {
             return _userList;

@@ -60,9 +60,29 @@ namespace MyAdminBoilerPlate.Controllers
         {
             if(userRepository.DeleteUser(Id) == 0)
             {
-                TempData["message"] = "Delete operation failed!";
+                TempData["message"] = "Delete operation failed!"; 
+                return RedirectToAction("ListOfUsers");
             }
             TempData["message"] = "Deleted successfully!";
+            return RedirectToAction("ListOfUsers");
+        }
+
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var user = userRepository.GetUser(id);
+            return View(user);
+        }
+        [HttpPost]
+        public IActionResult Edit(User userModel)
+        {
+            if (userRepository.EditUser(userModel) == 0)
+            {
+                TempData["message"] = "Update operation failed!";
+                return RedirectToAction("ListOfUsers");
+            }
+            TempData["message"] = "Updated successfully!";
             return RedirectToAction("ListOfUsers");
         }
     }
