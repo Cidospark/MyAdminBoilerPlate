@@ -7,12 +7,22 @@
     <h2>Create New User</h2>
     <form class="" method="post" asp-action="create" asp-controller="">
         <p>
-            <input asp-for="FirstName" placeholder="First Name" autofocus />
-            <input asp-for="LastName" placeholder="Last Name" />
+            <div style="display:flex;">
+                <div style="margin-right:20px;">
+                    <input asp-for="FirstName" placeholder="First Name" autofocus />
+                    <div><span asp-validation-for="FirstName"></span></div>
+                </div>
+                <div>
+                    <input asp-for="LastName" placeholder="Last Name" />
+                    <div><span asp-validation-for="LastName"></span></div>
+                </div>
+            </div>
         </p>
         <p>
             <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+            <option value="">---Select Gender---</option>
             </select>
+            <span asp-validation-for="Gender"></span>
         </p>
         <p>
             <button type="submit">Submit</button> 

@@ -7,7 +7,6 @@ namespace MyAdminBoilerPlate.Models
 {
     public enum Gender
     {
-        None,
         Male,
         Female
     }

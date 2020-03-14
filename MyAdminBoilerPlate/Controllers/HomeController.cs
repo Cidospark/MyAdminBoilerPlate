@@ -52,8 +52,12 @@ namespace MyAdminBoilerPlate.Controllers
         [HttpPost]
         public IActionResult Create(User userModel)
         {
-            userRepository.AddUser(userModel);
-            return RedirectToAction("ListOfUsers");
+            if (ModelState.IsValid)
+            {
+                userRepository.AddUser(userModel);
+                return RedirectToAction("ListOfUsers");
+            }
+            return View();
         }
 
         public IActionResult Delete(int Id)
@@ -77,12 +81,15 @@ namespace MyAdminBoilerPlate.Controllers
         [HttpPost]
         public IActionResult Edit(User userModel)
         {
-            if (userRepository.EditUser(userModel) == 0)
+            if (ModelState.IsValid)
             {
-                TempData["message"] = "Update operation failed!";
-                return RedirectToAction("ListOfUsers");
+                if (userRepository.EditUser(userModel) == 0)
+                {
+                    TempData["message"] = "Update operation failed!";
+                    return RedirectToAction("ListOfUsers");
+                }
+                TempData["message"] = "Updated successfully!";
             }
-            TempData["message"] = "Updated successfully!";
             return RedirectToAction("ListOfUsers");
         }
     }
