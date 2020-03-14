@@ -1,0 +1,21 @@
+﻿@model User
+@{ 
+    ViewBag.Title = "Create new user";
+}
+
+<div class="container">
+    <h2>Create New User</h2>
+    <form class="" method="post" asp-action="create" asp-controller="">
+        <p>
+            <input asp-for="LastName" placeholder="First Name" autofocus />
+            <input asp-for="FirstName" placeholder="Last Name" />
+        </p>
+        <p>
+            <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+            </select>
+        </p>
+        <p>
+            <button type="submit">Submit</button> 
+        </p>
+    </form>
+</div>

@@ -4,7 +4,9 @@
 <h1>@ViewData["Title"]</h1>
 -->
 
-<title>@Model.pageTitle</title>
+@{
+    ViewBag.Title = Model.pageTitle;
+}
 <h1>@Model.pageTitle</h1>
 
 <ul style="list-style:none; padding-left:0px;">

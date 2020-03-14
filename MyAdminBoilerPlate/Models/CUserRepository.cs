@@ -16,6 +16,7 @@ namespace MyAdminBoilerPlate.Models
                     UserId = 1, 
                     LastName = "Eze", 
                     FirstName = "Dave", 
+                    Gender = Gender.Male,
                     DOB = 2020, 
                     PhoneNumber = "08034345567", 
                     Email = "daveeze@sample.com", 
@@ -28,7 +29,8 @@ namespace MyAdminBoilerPlate.Models
                 new User(){ 
                     UserId = 2, 
                     LastName = "Musa", 
-                    FirstName = "Micheal", 
+                    FirstName = "Micheal",
+                    Gender = Gender.Male,
                     DOB = 1920, 
                     PhoneNumber = "08034300000", 
                     Email = "musa@sample.com", 
@@ -41,7 +43,8 @@ namespace MyAdminBoilerPlate.Models
                 new User(){ 
                     UserId = 3, 
                     LastName = "Gyang", 
-                    FirstName = "Prince", 
+                    FirstName = "Prince",
+                    Gender = Gender.Female,
                     DOB = 1980, 
                     PhoneNumber = "08034311117", 
                     Email = "gyang@sample.com", 
@@ -52,6 +55,13 @@ namespace MyAdminBoilerPlate.Models
                     Photo="pix1.jpg"
                 }
             };
+        }
+
+        public void AddUser(User user)
+        {
+            user.UserId = _userList.Max(u => u.UserId) + 1;
+            _userList.Add(user);
+            //return user;
         }
 
         public IEnumerable<User> GetAllUsers()

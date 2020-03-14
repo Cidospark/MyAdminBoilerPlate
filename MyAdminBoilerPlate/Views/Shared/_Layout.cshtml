@@ -7,6 +7,20 @@
 </head>
 <body>
     <div>
+        <div style="padding:10px; border:1px solid grey; border-radius:4px; display:flex; justify-content:space-between;">
+            <div>
+                <span><b><a href="~/foo.html">TEST SITE</a></b></span>
+                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                <span><a asp-action="create">Create</a></span>
+                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                <span><a asp-action="ListOfUsers">List</a></span>
+            </div>
+            <div>
+                <span><a asp-action="#">Login</a></span>
+                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                <span><a asp-action="#">Register</a></span>
+            </div>
+        </div>
         @RenderBody()
     </div>
     @RenderSection("Scripts", required : false)

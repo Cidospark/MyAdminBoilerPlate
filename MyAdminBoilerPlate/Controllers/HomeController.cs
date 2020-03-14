@@ -43,5 +43,17 @@ namespace MyAdminBoilerPlate.Controllers
             var users = userRepository.GetAllUsers();
             return View(users);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(User userModel)
+        {
+            userRepository.AddUser(userModel);
+            return RedirectToAction("ListOfUsers");
+        }
     }
 }

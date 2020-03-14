@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace MyAdminBoilerPlate.Models
 {
-    public interface IUserRepository
+    public enum Gender
     {
-        User GetUser(int Id);
-        IEnumerable<User> GetAllUsers();
-        void AddUser(User user);
+        None,
+        Male,
+        Female
     }
 }
