@@ -23,12 +23,12 @@ namespace MyAdminBoilerPlate.Models
             return user;
         }
 
-        public User DeleteUser(User model)
+        public User DeleteUser(int Id)
         {
             // use the instance of the DbContext and access users
             // find the user with the passed-in Id
             // if returned value is not null then remove user, save changes and return user
-            var user = _context.Users.Find(model.UserId);
+            var user = _context.Users.Find(Id);
             if(user != null)
             {
                 _context.Users.Remove(user);

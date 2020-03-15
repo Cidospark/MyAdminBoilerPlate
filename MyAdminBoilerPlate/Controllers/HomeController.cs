@@ -30,10 +30,18 @@ namespace MyAdminBoilerPlate.Controllers
 
         public IActionResult Details(int? id)
         {
+            User user = userRepository.GetUser(id??1);
+
+            if(user == null)
+            {
+                Response.StatusCode = 404;
+                return View("IdNotFound");
+            }
+
             HomeDetailsViewModel hdvm = new HomeDetailsViewModel()
             {
                 pageTitle = "Users Details",
-                user = userRepository.GetUser(id??1)
+                user = user
             };
 
             //var model = userRepository.GetUser(1);
@@ -108,7 +116,7 @@ namespace MyAdminBoilerPlate.Controllers
         {
             var user = userRepository.GetUser(Id);
 
-            if(userRepository.DeleteUser(user) == null)
+            if(userRepository.DeleteUser(Id) == null)
             {
                 TempData["message"] = "Delete operation failed!"; 
                 return RedirectToAction("ListOfUsers");
@@ -130,6 +138,13 @@ namespace MyAdminBoilerPlate.Controllers
         public IActionResult Edit(int id)
         {
             var user = userRepository.GetUser(id);
+
+            if (user == null)
+            {
+                Response.StatusCode = 404;
+                return View("IdNotFound");
+            }
+
             EditUserViewModel editedUser = new EditUserViewModel
             {
                 UserId = user.UserId,

@@ -39,6 +39,11 @@ namespace MyAdminBoilerPlate
                 // use "DeveloperExceptionPageOptions"
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
+            }
 
             // FileServerOptions combines the functionality of:
             // useDefaultFiles, useStaticFiles, directoryBrowser middleware.
