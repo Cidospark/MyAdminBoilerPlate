@@ -42,7 +42,7 @@ namespace MyAdminBoilerPlate
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseStatusCodePagesWithRedirects("/Error/{0}");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
             // FileServerOptions combines the functionality of:
