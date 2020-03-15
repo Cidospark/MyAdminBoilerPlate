@@ -6,6 +6,7 @@
 
 @{
     ViewBag.Title = Model.pageTitle;
+    var photoPath = "~/images/" + (Model.user.Photo ?? "pix1.jpg");
 }
 <h1>@Model.pageTitle</h1>
 
@@ -13,7 +14,7 @@
     <li class="">Name : @Model.user.FirstName @Model.user.LastName</li>
     <li>PhoneNumber : @Model.user.PhoneNumber </li>
     <li>Nationality : @Model.user.Nationality </li>
-    <li><img src="~/images/@Model.user.Photo" width="150" asp-append-version="true" /></li>
+    <li><img src="@photoPath" width="150" asp-append-version="true" /></li>
 </ul>
 <p>
 <a style="color:#aaf; cursor:pointer;" id="backBtn">Go back</a>

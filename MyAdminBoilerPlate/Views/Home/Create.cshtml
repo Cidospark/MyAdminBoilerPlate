@@ -1,11 +1,11 @@
-﻿@model User
+﻿@model CreateUserViewModel
 @{ 
     ViewBag.Title = "Create new user";
 }
 
 <div class="container">
     <h2>Create New User</h2>
-    <form class="" method="post" asp-action="create" asp-controller="">
+    <form enctype="multipart/form-data" class="" method="post" asp-action="create" asp-controller="">
         <p>
             <div style="display:flex;">
                 <div style="margin-right:20px;">
@@ -20,12 +20,15 @@
         </p>
         <p>
             <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
-            <option value="">---Select Gender---</option>
+                <option value="">---Select Gender---</option>
             </select>
             <span asp-validation-for="Gender"></span>
         </p>
         <p>
-            <button type="submit">Submit</button> 
+            <input asp-for="Pix" />
+        </p>
+        <p>
+            <button type="submit">Submit</button>
         </p>
     </form>
 </div>

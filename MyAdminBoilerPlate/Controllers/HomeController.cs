@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using MyAdminBoilerPlate.Models;
 using MyAdminBoilerPlate.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +13,12 @@ namespace MyAdminBoilerPlate.Controllers
     public class HomeController : Controller
     {
         private readonly IUserRepository userRepository;
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public HomeController(IUserRepository userRepository)
+        public HomeController(IUserRepository userRepository, IHostingEnvironment hostingEnvironment)
         {
             this.userRepository = userRepository;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
 
@@ -51,11 +55,39 @@ namespace MyAdminBoilerPlate.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(User userModel)
+        public IActionResult Create(CreateUserViewModel userModel)
         {
+            // check if all required fields are filled
             if (ModelState.IsValid)
             {
-                userRepository.AddUser(userModel);
+                string uniqueFilename = null;
+
+                // check if a photo is selected
+                if (userModel.Pix != null)
+                {
+                    // combine the absolute physical path of wwwroot folder with the images folder
+                    string uploadsFld = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                    
+                    // Combine filename with unique id to implement cache busting
+                    uniqueFilename = Guid.NewGuid().ToString() + "_" + userModel.Pix.FileName;
+                    
+                    // Combine uploads folder path and filename to get the file path
+                    string filePath = Path.Combine(uploadsFld, uniqueFilename);
+
+                    // Copy file path to the server
+                    userModel.Pix.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+
+                // create new instance of user with the details from the userViewModel instance
+                User newUser = new User
+                {
+                    LastName = userModel.LastName,
+                    FirstName = userModel.FirstName,
+                    Gender = userModel.Gender,
+                    Photo = uniqueFilename
+                };
+
+                userRepository.AddUser(newUser);
                 return RedirectToAction("ListOfUsers");
             }
             return View();
