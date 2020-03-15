@@ -6,8 +6,9 @@
 
 <div class="container">
     <h2>@ViewBag.Title</h2>
-    <form class="" method="post" asp-action="edit">
+    <form enctype="multipart/form-data" method="post" asp-action="edit">
         <input asp-for="UserId" hidden />
+        <input asp-for="ExistingPhotoPath" hidden />
         <p>
             <input asp-for="FirstName" placeholder="First Name" autofocus />
             <input asp-for="LastName" placeholder="Last Name" />

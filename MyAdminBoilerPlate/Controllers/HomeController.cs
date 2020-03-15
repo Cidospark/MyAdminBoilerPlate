@@ -60,23 +60,7 @@ namespace MyAdminBoilerPlate.Controllers
             // check if all required fields are filled
             if (ModelState.IsValid)
             {
-                string uniqueFilename = null;
-
-                // check if a photo is selected
-                if (userModel.Pix != null)
-                {
-                    // combine the absolute physical path of wwwroot folder with the images folder
-                    string uploadsFld = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                    
-                    // Combine filename with unique id to implement cache busting
-                    uniqueFilename = Guid.NewGuid().ToString() + "_" + userModel.Pix.FileName;
-                    
-                    // Combine uploads folder path and filename to get the file path
-                    string filePath = Path.Combine(uploadsFld, uniqueFilename);
-
-                    // Copy file path to the server
-                    userModel.Pix.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
+                string uniqueFilename = ProcessUploadedFile(userModel);
 
                 // create new instance of user with the details from the userViewModel instance
                 User newUser = new User
@@ -91,6 +75,29 @@ namespace MyAdminBoilerPlate.Controllers
                 return RedirectToAction("ListOfUsers");
             }
             return View();
+        }
+
+        private string ProcessUploadedFile(CreateUserViewModel userModel)
+        {
+            string uniqueFilename = null;
+
+            // check if a photo is selected
+            if (userModel.Pix != null)
+            {
+                // combine the absolute physical path of wwwroot folder with the images folder
+                string uploadsFld = Path.Combine(hostingEnvironment.WebRootPath, "images");
+
+                // Combine filename with unique id to implement cache busting
+                uniqueFilename = Guid.NewGuid().ToString() + "_" + userModel.Pix.FileName;
+
+                // Combine uploads folder path and filename to get the file path
+                string filePath = Path.Combine(uploadsFld, uniqueFilename);
+
+                // Copy file path to the server
+                userModel.Pix.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+
+            return uniqueFilename;
         }
 
         public IActionResult Delete(int Id)
@@ -120,11 +127,22 @@ namespace MyAdminBoilerPlate.Controllers
             return View(editedUser);
         }
         [HttpPost]
-        public IActionResult Edit(User userModel)
+        public IActionResult Edit(EditUserViewModel userModel)
         {
             if (ModelState.IsValid)
             {
-                if (userRepository.EditUser(userModel) == null)
+                // get the particular user to edit
+                var newUser = userRepository.GetUser(userModel.UserId);
+                newUser.LastName = userModel.LastName;
+                newUser.FirstName = userModel.FirstName;
+                newUser.Gender = userModel.Gender;
+                
+                if(userModel.Pix != null)
+                {
+                    newUser.Photo = ProcessUploadedFile(userModel);
+                }
+
+                if (userRepository.EditUser(newUser) == null)
                 {
                     TempData["message"] = "Update operation failed!";
                     return RedirectToAction("ListOfUsers");
