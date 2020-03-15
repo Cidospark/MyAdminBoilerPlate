@@ -1,12 +1,13 @@
-﻿@model User
+﻿@model EditUserViewModel
 @{
     ViewBag.Title = "Edit user";
+    var photoPath = "~/images/" + (Model.ExistingPhotoPath ?? "pix1.jpg");
 }
 
 <div class="container">
     <h2>@ViewBag.Title</h2>
     <form class="" method="post" asp-action="edit">
-        <input asp-for="UserId"  hidden />
+        <input asp-for="UserId" hidden />
         <p>
             <input asp-for="FirstName" placeholder="First Name" autofocus />
             <input asp-for="LastName" placeholder="Last Name" />
@@ -16,7 +17,11 @@
             </select>
         </p>
         <p>
+            <input asp-for="Pix" />
+        </p>
+        <p>
             <button type="submit">Submit</button>
         </p>
+        <img src="@photoPath" width="150" asp-append-version="true" />
     </form>
 </div>

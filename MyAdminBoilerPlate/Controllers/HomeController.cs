@@ -109,7 +109,15 @@ namespace MyAdminBoilerPlate.Controllers
         public IActionResult Edit(int id)
         {
             var user = userRepository.GetUser(id);
-            return View(user);
+            EditUserViewModel editedUser = new EditUserViewModel
+            {
+                UserId = user.UserId,
+                LastName = user.LastName,
+                FirstName = user.FirstName,
+                Gender = user.Gender,
+                ExistingPhotoPath = user.Photo
+            };
+            return View(editedUser);
         }
         [HttpPost]
         public IActionResult Edit(User userModel)
