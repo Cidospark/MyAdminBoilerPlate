@@ -94,7 +94,11 @@ namespace MyAdminBoilerPlate.Controllers
                 string filePath = Path.Combine(uploadsFld, uniqueFilename);
 
                 // Copy file path to the server
-                userModel.Pix.CopyTo(new FileStream(filePath, FileMode.Create));
+                using(var filestream = new FileStream(filePath, FileMode.Create))
+                {
+                    userModel.Pix.CopyTo(filestream);
+                }
+                
             }
 
             return uniqueFilename;
@@ -102,11 +106,21 @@ namespace MyAdminBoilerPlate.Controllers
 
         public IActionResult Delete(int Id)
         {
-            if(userRepository.DeleteUser(Id) == null)
+            var user = userRepository.GetUser(Id);
+
+            if(userRepository.DeleteUser(user) == null)
             {
                 TempData["message"] = "Delete operation failed!"; 
                 return RedirectToAction("ListOfUsers");
             }
+                
+                if(user.Photo != null)
+                {
+                    string fPath = Path.Combine(hostingEnvironment.WebRootPath, "images", user.Photo);
+                    System.IO.File.Delete(fPath);
+                
+                }
+
             TempData["message"] = "Deleted successfully!";
             return RedirectToAction("ListOfUsers");
         }
@@ -137,8 +151,18 @@ namespace MyAdminBoilerPlate.Controllers
                 newUser.FirstName = userModel.FirstName;
                 newUser.Gender = userModel.Gender;
                 
+                // check if a new picture upload is selected
                 if(userModel.Pix != null)
                 {
+                    // check if this user already have an existing photo
+                    if(userModel.ExistingPhotoPath != null)
+                    {
+                        // combine paths to get unique filepath
+                        string filepath = Path.Combine(hostingEnvironment.WebRootPath, "images", userModel.ExistingPhotoPath);
+
+                        // delete existing file path
+                        System.IO.File.Delete(filepath);
+                    }
                     newUser.Photo = ProcessUploadedFile(userModel);
                 }
 
