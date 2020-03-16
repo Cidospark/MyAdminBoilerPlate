@@ -7,10 +7,10 @@ namespace MyAdminBoilerPlate.Models
 {
     public interface IUserRepository
     {
-        User GetUser(int Id);
-        IEnumerable<User> GetAllUsers();
-        User AddUser(User user);
-        User DeleteUser(int Id);
-        User EditUser(User userChanges);
+        ApplicationUser GetUser(int Id);
+        IEnumerable<ApplicationUser> GetAllUsers();
+        ApplicationUser AddUser(ApplicationUser user);
+        ApplicationUser DeleteUser(int Id);
+        ApplicationUser EditUser(ApplicationUser userChanges);
     }
 }

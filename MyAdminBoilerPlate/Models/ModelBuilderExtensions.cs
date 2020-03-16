@@ -10,10 +10,9 @@ namespace MyAdminBoilerPlate.Models
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(
-                new User
+            modelBuilder.Entity<ApplicationUser>().HasData(
+                new ApplicationUser
                 {
-                    UserId = 1,
                     FirstName = "John",
                     LastName = "Doe",
                     Gender = Gender.Male

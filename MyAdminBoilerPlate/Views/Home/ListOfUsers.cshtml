@@ -1,4 +1,4 @@
-﻿@model IEnumerable<User>
+﻿@model IEnumerable<ApplicationUser>
 @{
     ViewBag.Title = "List of users";
 }
@@ -29,12 +29,12 @@
                 <td>@singleUser.FirstName</td>
                 <td>
                     <div style="display:flex;">
-                        <a asp-action="Details" asp-route-id="@singleUser.UserId">View</a>
+                        <a asp-action="Details" asp-route-id="@singleUser.Id">View</a>
                         <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
-                        <a asp-action="Edit" asp-route-id="@singleUser.UserId">Edit</a>
+                        <a asp-action="Edit" asp-route-id="@singleUser.Id">Edit</a>
                         <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
                         <!--Preferable use a form to implement the delete button-->
-                        <a asp-action="Delete" asp-route-id="@singleUser.UserId" onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@singleUser.Id" onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">Delete</a>
                     </div>
                 </td>
             </tr>

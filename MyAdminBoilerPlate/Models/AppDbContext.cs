@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace MyAdminBoilerPlate.Models
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
 
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<ApplicationUser> applicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Seed();
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Seed();
         }
     }
 }

@@ -14,34 +14,34 @@ namespace MyAdminBoilerPlate.Models
         {
             _context = context;
         }
-        public User AddUser(User user)
+        public ApplicationUser AddUser(ApplicationUser user)
         {
             // use the instance of the DbContext and access users and add the new user to it
             // save changes and return the newly added user
-            _context.Users.Add(user);
+            _context.applicationUsers.Add(user);
             _context.SaveChanges();
             return user;
         }
 
-        public User DeleteUser(int Id)
+        public ApplicationUser DeleteUser(int Id)
         {
             // use the instance of the DbContext and access users
             // find the user with the passed-in Id
             // if returned value is not null then remove user, save changes and return user
-            var user = _context.Users.Find(Id);
+            var user = _context.applicationUsers.Find(Id);
             if(user != null)
             {
-                _context.Users.Remove(user);
+                _context.applicationUsers.Remove(user);
             }
             return user;
         }
 
-        public User EditUser(User userChanges)
+        public ApplicationUser EditUser(ApplicationUser userChanges)
         {
             // use the instance of the DbContext and access users
             // attach changes, save state as modified, save changes
             // return user changes
-            var user = _context.Users.Attach(userChanges);
+            var user = _context.applicationUsers.Attach(userChanges);
             if (user != null)
             {
                 user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -50,14 +50,14 @@ namespace MyAdminBoilerPlate.Models
             return userChanges;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<ApplicationUser> GetAllUsers()
         {
-            return _context.Users;
+            return _context.applicationUsers;
         }
 
-        public User GetUser(int Id)
+        public ApplicationUser GetUser(int Id)
         {
-            return _context.Users.Find(Id);
+            return _context.applicationUsers.Find(Id);
         }
     }
 }

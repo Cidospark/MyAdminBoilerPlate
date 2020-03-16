@@ -8,7 +8,7 @@ namespace MyAdminBoilerPlate.ViewModels
 {
     public class HomeDetailsViewModel
     {
-        public User user { get; set; }
+        public ApplicationUser user { get; set; }
         public string pageTitle { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace MyAdminBoilerPlate.Controllers
         {
             // un-comment the line beloww to test the nlog functionality
             //throw new Exception("Error in Details");
-            User user = userRepository.GetUser(id??1);
+            ApplicationUser user = userRepository.GetUser(id??1);
 
             if(user == null)
             {
@@ -73,7 +73,7 @@ namespace MyAdminBoilerPlate.Controllers
                 string uniqueFilename = ProcessUploadedFile(userModel);
 
                 // create new instance of user with the details from the userViewModel instance
-                User newUser = new User
+                ApplicationUser newUser = new ApplicationUser
                 {
                     LastName = userModel.LastName,
                     FirstName = userModel.FirstName,
@@ -149,7 +149,6 @@ namespace MyAdminBoilerPlate.Controllers
 
             EditUserViewModel editedUser = new EditUserViewModel
             {
-                UserId = user.UserId,
                 LastName = user.LastName,
                 FirstName = user.FirstName,
                 Gender = user.Gender,
