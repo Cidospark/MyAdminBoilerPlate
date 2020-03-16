@@ -30,6 +30,8 @@ namespace MyAdminBoilerPlate.Controllers
 
         public IActionResult Details(int? id)
         {
+            // un-comment the line beloww to test the nlog functionality
+            //throw new Exception("Error in Details");
             User user = userRepository.GetUser(id??1);
 
             if(user == null)
