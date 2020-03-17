@@ -1,0 +1,53 @@
+﻿@model CreateUserViewModel
+@{ 
+    ViewBag.Title = "Create new user";
+}
+
+<div class="container">
+    <h2>Create New User</h2>
+    <form enctype="multipart/form-data" class="" method="post" asp-action="CreateUser" asp-controller="Account">
+        <div asp-validation-summary="ModelOnly"></div>
+        <p>
+            <div style="display:flex;">
+                <div>
+                    <input asp-for="LastName" placeholder="Last Name" />
+                    <div><small><span asp-validation-for="LastName"></span></small></div>
+                </div>
+                <div style="margin-right:20px;">
+                    <input asp-for="FirstName" placeholder="First Name" autofocus />
+                    <div><small><span asp-validation-for="FirstName"></span></small></div>
+                </div>
+            </div>
+        </p>
+        <p>
+            <div style="display:flex;">
+                <div>
+                    <input asp-for="Email" placeholder="Email" />
+                    <div><small><span asp-validation-for="Email"></span></small></div>
+                </div>
+                <div>
+                    <input asp-for="Password" placeholder="Password" />
+                    <div><small><span asp-validation-for="Password"></span></small></div>
+                </div>
+            </div>
+        </p>
+        <p>
+            <input asp-for="ConfirmPassword" placeholder="Confrim Password" />
+            <div><small><span asp-validation-for="ConfirmPassword"></span></small></div>
+        </p>
+        <!--
+        <p>
+            <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+                <option value="">---Select Gender---</option>
+            </select>
+            <span asp-validation-for="Gender"></span>
+        </p>
+    <p>
+        <input asp-for="Pix" />
+    </p>
+        -->
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+</div>

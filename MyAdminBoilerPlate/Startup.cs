@@ -26,7 +26,7 @@ namespace MyAdminBoilerPlate
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<IdentityUser, IdentityRole>(options => {    
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {    
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 3;
             }).AddEntityFrameworkStores<AppDbContext>();

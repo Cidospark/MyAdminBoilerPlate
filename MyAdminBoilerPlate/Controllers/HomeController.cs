@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyAdminBoilerPlate.Controllers
 {
+    /*
     public class HomeController : Controller
     {
         private readonly IUserRepository userRepository;
@@ -192,4 +193,5 @@ namespace MyAdminBoilerPlate.Controllers
             return RedirectToAction("ListOfUsers");
         }
     }
+    */
 }

@@ -10,22 +10,26 @@ namespace MyAdminBoilerPlate.ViewModels
 {
     public class CreateUserViewModel
     {
+        [Required(ErrorMessage = "Lastname required")]
         public string LastName { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Firstname require")]
         public string FirstName { get; set; }
-        [Required]
-        public Gender Gender { get; set; }
-        [Required]
+        //[Required]
+        //public Gender Gender { get; set; }
+        [Required(ErrorMessage ="Email required")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Password required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Required field")]
         [Display(Name="Confirm password")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage ="Password and confirmation password does not match.")]
         public string ConfirmPassword { get; set; }
-        public IFormFile Pix { get; set; }
+        ///public IFormFile Pix { get; set; }
     }
 }
