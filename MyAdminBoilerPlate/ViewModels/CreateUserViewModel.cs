@@ -13,15 +13,19 @@ namespace MyAdminBoilerPlate.ViewModels
         public string LastName { get; set; }
         [Required]
         public string FirstName { get; set; }
-        public string Email { get; set; }
         [Required]
         public Gender Gender { get; set; }
-        public string Nationality { get; set; }
-        public int DOB { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        [Required]
+        [Display(Name="Confirm password")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage ="Password and confirmation password does not match.")]
+        public string ConfirmPassword { get; set; }
         public IFormFile Pix { get; set; }
     }
 }
