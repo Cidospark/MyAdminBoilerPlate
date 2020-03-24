@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> userManager;
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -16,15 +18,26 @@
                 <span><a asp-action="ListOfUsers" asp-controller="Home">List</a></span>
             </div>
             <div>
-                <span><a asp-action="#">Login</a></span>
-                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
-                <span><a asp-action="CreateUser" asp-controller="Account">Register</a></span>
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <div style="display:flex;">
+                        <span><a asp-action="Details" asp-controller="Home" asp-route-id="@userManager.GetUserId(User)">@User.Identity.Name</a></span>
+                        <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                        <form method="post" asp-action="Logout" asp-controller="Account"><button type="submit" style="border:none;background:transparent;">Logout</button></form>
+                    </div>
+                }
+                else
+                {
+                    <span><a asp-action="Login" asp-controller="Account">Login</a></span>
+                    <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                    <span><a asp-action="CreateUser" asp-controller="Account">Register</a></span>
+                }
             </div>
         </div>
-                
-        
+
+
         @RenderBody()
     </div>
-    @RenderSection("Scripts", required : false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

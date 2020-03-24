@@ -21,26 +21,23 @@ namespace MyAdminBoilerPlate.Controllers
             this.userRepository = userRepository;
             this.hostingEnvironment = hostingEnvironment;
         }
+
+        [HttpGet]
         public IActionResult ListOfUsers()
         {
             var users = userRepository.GetAllUsers();
             TempData["numOfUsers"] = userRepository.GetAllUsers().Count();
             return View(users);
         }
-        /*
 
-                public string Index()
-                {
-                    return userRepository.GetUser(1).LastName + " " + userRepository.GetUser(1).FirstName;
-                }
-
-
-                public IActionResult Details(int? id)
+        [HttpGet]
+                public IActionResult Details(string Id)
                 {
                     // un-comment the line beloww to test the nlog functionality
                     //throw new Exception("Error in Details");
-                    ApplicationUser user = userRepository.GetUser(id??1);
-
+                    ApplicationUser user = userRepository.GetUser(Id);
+                    
+                    // to handle 404 errors for un-known id
                     if(user == null)
                     {
                         Response.StatusCode = 404;
@@ -57,6 +54,14 @@ namespace MyAdminBoilerPlate.Controllers
                     //ViewData["Title"] = "Users Details";
                     return View(hdvm);
                 }
+
+        /*
+
+                public string Index()
+                {
+                    return userRepository.GetUser(1).LastName + " " + userRepository.GetUser(1).FirstName;
+                }
+
 
 
 

@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="container">
+    <h2>Create New User</h2>
+    <form class="" method="post" asp-action="Login" asp-controller="Account">
+        <div asp-validation-summary="ModelOnly"></div>
+        <p>
+            <div style="display:flex;">
+                <div>
+                    <input asp-for="Email" placeholder="Email" />
+                    <div><small><span asp-validation-for="Email"></span></small></div>
+                </div>
+                <div style="margin-right:20px;">
+                    <input asp-for="Password" placeholder="Password" autofocus />
+                    <div><small><span asp-validation-for="Password"></span></small></div>
+                </div>
+            </div>
+        </p>
+        <p>
+            <div style="display:flex;">
+                <label asp-for="RememberMe">
+                    <input asp-for="RememberMe" /> @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+        </p>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+</div>

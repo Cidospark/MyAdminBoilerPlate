@@ -29,8 +29,13 @@
                 <td>@singleUser.FirstName</td>
                 <td>
                     <div style="display:flex;">
-                        <!--Preferable use a form to implement these buttons-->
-                        <a asp-action="Details" asp-route-id="@singleUser.Id">View</a>
+                        <!--Preferable use a form to implement these buttons
+                        <form asp-action="Details" asp-controller="Home">
+                            <input asp-for="@singleUser.Id"  />
+                        <button type="submit" style="background:transparent; border:none; outline:none; cursor:pointer; color:blue;">View</button>
+                        </form>
+                        -->
+                        <a asp-action="Details" asp-controller="Home" asp-route-id="@singleUser.Id">View</a>
                         <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
                         <a asp-action="Edit" asp-route-id="@singleUser.Id">Edit</a>
                         <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>

@@ -22,6 +22,13 @@ namespace MyAdminBoilerPlate.Controllers
             this.signInManager = signInManager;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpGet]
         public IActionResult CreateUser()
         {
@@ -59,5 +66,31 @@ namespace MyAdminBoilerPlate.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // use the instance to generate a hashed password for the user
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+                // if result is successful the sign the user in
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListOfUsers", "Home");
+                }
+
+                // if not successful add errors to modelstate
+                ModelState.AddModelError("", "Invalid Login Attempt");
+            }
+            return View(model);
+        }
+
     }
 }

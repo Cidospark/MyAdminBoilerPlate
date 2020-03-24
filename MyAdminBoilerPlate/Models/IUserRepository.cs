@@ -7,7 +7,7 @@ namespace MyAdminBoilerPlate.Models
 {
     public interface IUserRepository
     {
-        ApplicationUser GetUser(int Id);
+        ApplicationUser GetUser(string Id);
         IEnumerable<ApplicationUser> GetAllUsers();
         ApplicationUser AddUser(ApplicationUser user);
         ApplicationUser DeleteUser(int Id);

@@ -55,7 +55,7 @@ namespace MyAdminBoilerPlate.Models
             return _context.applicationUsers;
         }
 
-        public ApplicationUser GetUser(int Id)
+        public ApplicationUser GetUser(string Id)
         {
             return _context.applicationUsers.Find(Id);
         }
