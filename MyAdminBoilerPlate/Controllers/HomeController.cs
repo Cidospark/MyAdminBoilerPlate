@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MyAdminBoilerPlate.Models;
 using MyAdminBoilerPlate.ViewModels;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyAdminBoilerPlate.Controllers
 {
-    
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IUserRepository userRepository;
