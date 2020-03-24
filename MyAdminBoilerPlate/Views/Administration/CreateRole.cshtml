@@ -1,0 +1,29 @@
+﻿@model CreateRoleViewModel
+@{
+    ViewBag.Title = "Create New Role";
+}
+<style>
+    .no-bullet ul{
+        list-style:none;
+        padding-left:0px;
+        color:#faa;
+        margin-left:0px;        
+    }
+</style>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <form method="post" asp-action="CreateRole" asp-controller="Administration">
+        <div asp-validation-summary="ModelOnly" class="no-bullet"></div>
+        <p>
+            <div style="display:flex;">
+                <div>
+                    <input asp-for="RoleName" placeholder="Role Name" />
+                    <div><small><span asp-validation-for="RoleName"></span></small></div>
+                </div>
+            </div>
+        </p>       
+        <p>
+            <button type="submit">Create Role</button>
+        </p>
+    </form>
+</div>
