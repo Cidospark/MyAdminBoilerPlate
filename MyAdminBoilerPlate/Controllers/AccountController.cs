@@ -75,7 +75,7 @@ namespace MyAdminBoilerPlate.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,15 @@ namespace MyAdminBoilerPlate.Controllers
                 // if result is successful the sign the user in
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("ListOfUsers", "Home");
+                    // before redirecting check if return url is empty
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("ListOfUsers", "Home");
+                    }
                 }
 
                 // if not successful add errors to modelstate
