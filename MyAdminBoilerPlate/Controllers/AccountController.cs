@@ -12,6 +12,7 @@ using MyAdminBoilerPlate.ViewModels;
 
 namespace MyAdminBoilerPlate.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -24,19 +25,35 @@ namespace MyAdminBoilerPlate.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("ListOfUsers", "Home");
         }
 
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsEmailInUse(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if(user == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email {email} is already in use");
+            }
+        }
+
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult CreateUser()
         {
             return View();
         }
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateUser(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -70,12 +87,14 @@ namespace MyAdminBoilerPlate.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -86,13 +105,13 @@ namespace MyAdminBoilerPlate.Controllers
                 if (result.Succeeded)
                 {
                     // before redirecting check if return url is empty
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    if (!string.IsNullOrEmpty(ReturnUrl))
                     {
-                        return LocalRedirect(returnUrl);
+                        return LocalRedirect(ReturnUrl);
                     }
                     else
                     {
-                        return RedirectToAction("ListOfUsers", "Home");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
 

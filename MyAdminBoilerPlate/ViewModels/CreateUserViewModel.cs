@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using MyAdminBoilerPlate.Models;
+using MyAdminBoilerPlate.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +21,8 @@ namespace MyAdminBoilerPlate.ViewModels
         //public Gender Gender { get; set; }
         [Required(ErrorMessage ="Email required")]
         [EmailAddress]
+        [Remote(action: "IsEmailInUse", controller: "Account")]
+        [ValidEmailDomain(allowedDomain: "sample.com", ErrorMessage ="Email domain must be 'sample.com'")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password required")]
