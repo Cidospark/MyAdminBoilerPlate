@@ -11,9 +11,13 @@
     </div>
 }
 
-<br/>
+<br />
 <div>Total number of users is : @TempData["numOfUsers"]</div>
-<table class="table" cellspacing="20">
+<br/>
+<a style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;"
+   asp-action="CreateUser" asp-controller="Account">Add User</a>
+<br/><br />
+<table class="table" style="border:1px solid grey" cellspacing="20">
     <thead>
         <tr>
             <th>Last Name</th>
@@ -39,7 +43,8 @@
                         <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
                         <a asp-action="Edit" asp-route-id="@singleUser.Id">Edit</a>
                         <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
-                        <a asp-action="Delete" asp-route-id="@singleUser.Id" onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@singleUser.Id"
+                           onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">Delete</a>
                     </div>
                 </td>
             </tr>
@@ -48,10 +53,10 @@
 </table>
 
 <script>
-const btnClose = document.querySelector("#closeBox");
-const boxMsg = document.querySelector("#msgBox");
+    const btnClose = document.querySelector("#closeBox");
+    const boxMsg = document.querySelector("#msgBox");
 
     btnClose.addEventListener("click", function () {
-    boxMsg.style.display = "none";
+        boxMsg.style.display = "none";
     })
 </script>

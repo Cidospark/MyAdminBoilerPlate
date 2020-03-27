@@ -22,7 +22,12 @@
             </div>
             <hr />
             <div>
-                <a>Edit</a>
+                <a asp-action="EditRoleUsers" asp-controller="Administration" asp-route-roleId="@role.Id"
+                   style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;">
+                    Add User | Remove Users
+                </a>
+                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                <a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id">Edit</a>
                 <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
                 <a onclick="return confirm('Please confirm your action! to delete : @role.Name');">Delete</a>
             </div>

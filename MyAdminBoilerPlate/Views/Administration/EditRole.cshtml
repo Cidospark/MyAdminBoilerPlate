@@ -1,0 +1,59 @@
+﻿@model EditRoleViewModel
+
+@{
+    ViewBag.Title = "Edit Role";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form method="post">
+    <div class="">
+        <label asp-for="Id"></label>
+        <div>
+            <input asp-for="Id" disabled class="" />
+        </div>
+    </div><br/>
+    <div>
+        <label asp-for="RoleName" ></label>
+        <div>
+            <input asp-for="RoleName" />
+            <span asp-validation-for="RoleName" ></span>
+        </div>
+    </div>
+    <div asp-validation-summary="ModelOnly"></div><br/>
+    <div style="display:flex;">
+        <div>
+            <button type="submit"  style="padding:5px; border:1px solid grey; border-radius:4px;" >Update</button>
+            <a asp-action="ListRoles" style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;">Back To List Roles | Add Role</a>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <h4>Users in this role</h4>
+        </div>
+        <div>
+            @if (Model.Users.Any())
+            {
+            <ol style="padding:15px;">
+                @foreach (var user in Model.Users)
+                {
+                <li style="padding:10px; border-top:1px solid grey;">@user</li>
+                }
+            </ol>
+            }
+            else
+            {
+            <hr />
+            <h5>None at the moment</h5>
+            }
+        </div>
+        <div>
+            <a asp-action="EditRoleUsers" asp-controller="Administration" asp-route-roleId="@Model.Id" 
+               style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;">
+            Add User | Remove Users
+            </a>
+        </div>
+    </div>
+
+</form>

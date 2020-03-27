@@ -111,7 +111,7 @@ namespace MyAdminBoilerPlate.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("ListOfUsers", "Home");
                     }
                 }
 
