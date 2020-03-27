@@ -12,7 +12,7 @@ using MyAdminBoilerPlate.ViewModels;
 
 namespace MyAdminBoilerPlate.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="Super Admin")]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;

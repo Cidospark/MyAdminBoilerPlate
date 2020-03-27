@@ -19,8 +19,11 @@
                 <span><b><a href="~/foo.html">TEST SITE</a></b></span>
                 <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
                 <span><a asp-action="ListOfUsers" asp-controller="Home">Registered Users</a></span>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
+                {
                 <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
                 <span><a asp-action="ListRoles" asp-controller="Administration">Users Roles</a></span>
+                }
             </div>
             <div>
                 @if (signInManager.IsSignedIn(User))
