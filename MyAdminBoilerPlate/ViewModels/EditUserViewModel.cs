@@ -10,7 +10,15 @@ namespace MyAdminBoilerPlate.ViewModels
 {
     public class EditUserViewModel : CreateUserViewModel
     {
-        public int UserId { get; set; }
+        public EditUserViewModel()
+        {
+            Claims = new List<string>();
+            Roles = new List<string>();
+        }
+        public string UserId { get; set; }
         public string ExistingPhotoPath { get; set; }
+
+        public List<string> Claims { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

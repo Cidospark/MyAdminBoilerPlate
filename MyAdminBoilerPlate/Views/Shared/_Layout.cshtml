@@ -18,7 +18,7 @@
             <div>
                 <span><b><a href="~/foo.html">TEST SITE</a></b></span>
                 <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
-                <span><a asp-action="ListOfUsers" asp-controller="Home">Registered Users</a></span>
+                <span><a asp-action="ListOfUsers" asp-controller="Administration">Registered Users</a></span>
                 @if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
                 {
                 <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>

@@ -1,0 +1,26 @@
+﻿@model EditUserViewModel
+
+<hr/>
+<div>
+    <div><big><b>User Roles</b></big></div>
+    <div>
+        @if (Model.Roles.Any())
+        {
+        <ol>
+            @foreach(var role in Model.Roles)
+            {
+            <li>&nbsp; @role</li>
+            }
+        </ol>
+        }
+        else
+        {
+            <h5>None at the moment</h5>
+        }
+        <div>
+            <a style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;" 
+               asp-action="" asp-route-id="">Manage Roles</a>
+        </div>
+    </div>
+</div>
+<hr/>

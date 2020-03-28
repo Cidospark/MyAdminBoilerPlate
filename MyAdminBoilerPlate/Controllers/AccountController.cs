@@ -28,7 +28,7 @@ namespace MyAdminBoilerPlate.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("ListOfUsers", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         [AcceptVerbs("Get", "Post")]
@@ -73,8 +73,12 @@ namespace MyAdminBoilerPlate.Controllers
                 // if result is successful the sign the user in
                 if (result.Succeeded)
                 {
+                    if(signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
+                    {
+                        return RedirectToAction("ListOfUsers", "Administration");
+                    }
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("ListOfUsers", "Home");
+                    return RedirectToAction("ListOfUsers", "Administration");
                 }
 
                 // if not successful add errors to modelstate
@@ -85,6 +89,35 @@ namespace MyAdminBoilerPlate.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if(user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {id} cannot be found";
+                return View("NotFound");
+            }
+
+            var userClaims = await userManager.GetClaimsAsync(user);
+            var userRoles = await userManager.GetRolesAsync(user);
+
+            var model = new EditUserViewModel
+            {
+                UserId = user.Id,
+                LastName = user.LastName,
+                FirstName = user.FirstName,
+                ExistingPhotoPath = user.Photo,
+                Claims = userClaims.Select(c => c.Value).ToList(),
+                Roles = userRoles
+            };
+
+            return View(model);
+
+        }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -111,7 +144,7 @@ namespace MyAdminBoilerPlate.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("ListOfUsers", "Home");
+                        return RedirectToAction("ListOfUsers", "Administration");
                     }
                 }
 

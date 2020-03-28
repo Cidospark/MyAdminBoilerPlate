@@ -1,0 +1,26 @@
+﻿@model EditUserViewModel
+
+<hr />
+<div>
+    <div><big><b>User Claims</b></big></div>
+    <div>
+        @if (Model.Claims.Any())
+        {
+            <ol>
+                @foreach (var claim in Model.Claims)
+                {
+                    <li>&nbsp; @claim</li>
+                }
+            </ol>
+        }
+        else
+        {
+            <h5>None at the moment</h5>
+        }
+        <div>
+            <a asp-action="" asp-route-id="" 
+               style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;">Manage Claims</a>
+        </div>
+    </div>
+</div>
+<hr />

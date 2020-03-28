@@ -25,6 +25,16 @@ namespace MyAdminBoilerPlate.Controllers
             this.userManager = userManager;
         }
 
+
+        // list identity users
+        [HttpGet]
+        public IActionResult ListOfUsers()
+        {
+            var users = userManager.Users;
+            TempData["numOfUsers"] = users.Count();
+            return View(users);
+        }
+
         // goto role view
         [HttpGet]
         public IActionResult CreateRole()

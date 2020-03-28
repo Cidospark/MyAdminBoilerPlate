@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ApplicationUser>
+@{
+    ViewBag.Title = "List of users";
+    var num = @TempData["numOfUsers"] == null ? 0 : @TempData["numOfUsers"];
+}
+
+@if (TempData["message"] != null)
+{
+    <div id="msgBox" style="display:flex; padding:10px; justify-content:space-between; border:1px solid grey; background:#fcc; border-radius:4px;">
+        <div>@TempData["message"]</div>
+        <div style="cursor:pointer;border:1px solid" id="closeBox">X</div>
+    </div>
+}
+
+<br />
+<div>Total number of users is : @num</div>
+<br/>
+<a style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;"
+   asp-action="CreateUser" asp-controller="Account">Add User</a>
+<br/><br />
+@if (Model.Any())
+{
+          <table class="table" style="border:1px solid grey" cellspacing="20">
+            <thead>
+                <tr>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var singleUser in Model)
+                {
+                    <tr>
+                        <td>@singleUser.LastName</td>
+                        <td>@singleUser.FirstName</td>
+                        <td>
+                            <div style="display:flex;">
+                                <!--Preferable use a form to implement these buttons
+                                <form asp-action="Details" asp-controller="Home">
+                                    <input asp-for="@singleUser.Id"  />
+                                <button type="submit" style="background:transparent; border:none; outline:none; cursor:pointer; color:blue;">View</button>
+                                </form>
+                                -->
+                                <a asp-action="Details" asp-controller="Home" asp-route-id="@singleUser.Id">View</a>
+                                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                                <a asp-action="Edit" asp-controller="Account" asp-route-id="@singleUser.Id">Edit</a>
+                                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                                <a asp-action="Delete" asp-route-id="@singleUser.Id"
+                                   onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+}
+else
+{
+    <div>
+        <div>No users created yet</div>
+    </div>
+}
+
+<script>
+    const btnClose = document.querySelector("#closeBox");
+    const boxMsg = document.querySelector("#msgBox");
+
+    btnClose.addEventListener("click", function () {
+        boxMsg.style.display = "none";
+    })
+</script>
