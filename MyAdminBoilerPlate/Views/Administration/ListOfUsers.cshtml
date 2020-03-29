@@ -42,12 +42,14 @@
                                 <button type="submit" style="background:transparent; border:none; outline:none; cursor:pointer; color:blue;">View</button>
                                 </form>
                                 -->
-                                <a asp-action="Details" asp-controller="Home" asp-route-id="@singleUser.Id">View</a>
-                                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
-                                <a asp-action="Edit" asp-controller="Account" asp-route-id="@singleUser.Id">Edit</a>
-                                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
-                                <a asp-action="Delete" asp-route-id="@singleUser.Id"
-                                   onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">Delete</a>
+                                <form method="post" asp-action="DeleteUser" asp-controller="Administration" asp-route-id="@singleUser.Id">
+                                    <a asp-action="Details" asp-controller="Home" asp-route-id="@singleUser.Id">View</a>
+                                    <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                                    <a asp-action="Edit" asp-controller="Account" asp-route-id="@singleUser.Id">Edit</a>
+                                    <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                                    <button type="submit"
+                                       onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">Delete</button>
+                                </form>
                             </div>
                         </td>
                     </tr>

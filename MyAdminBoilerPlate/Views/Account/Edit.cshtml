@@ -13,15 +13,19 @@
                 <input asp-for="FirstName" placeholder="First Name" autofocus />
                 <input asp-for="LastName" placeholder="Last Name" />
             </p>
+            <p>
+                <input asp-for="Email" placeholder="Email..." />
+                <span asp-validation-for="Email"></span>
+            </p>
             <!--
-        <p>
-            <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
-            </select>
-        </p>
-        <p>
-            <input asp-for="Pix" />
-        </p>
-        -->
+    <p>
+        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+        </select>
+    </p>
+    <p>
+        <input asp-for="Pix" />
+    </p>
+    -->
             <p>
                 <button type="submit">Submit</button>
                 <a asp-action="ListOfUsers" asp-controller="Administration">Cancel</a>

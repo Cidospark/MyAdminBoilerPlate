@@ -109,12 +109,45 @@ namespace MyAdminBoilerPlate.Controllers
                 UserId = user.Id,
                 LastName = user.LastName,
                 FirstName = user.FirstName,
+                Email = user.Email,
                 ExistingPhotoPath = user.Photo,
                 Claims = userClaims.Select(c => c.Value).ToList(),
                 Roles = userRoles
             };
 
             return View(model);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            var user = await userManager.FindByIdAsync(model.UserId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {model.UserId} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                user.LastName = model.LastName;
+                user.FirstName = model.FirstName;
+                user.Email = model.Email;
+                user.UserName = model.Email;
+
+                var result = await userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListOfUsers", "Administration");
+                }
+
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Code);
+                }
+
+                return View(model);
+            }
 
         }
 

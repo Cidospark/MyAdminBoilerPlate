@@ -24,8 +24,7 @@ namespace MyAdminBoilerPlate.Controllers
             this.roleManager = roleManager;
             this.userManager = userManager;
         }
-
-
+        
         // list identity users
         [HttpGet]
         public IActionResult ListOfUsers()
@@ -35,13 +34,38 @@ namespace MyAdminBoilerPlate.Controllers
             return View(users);
         }
 
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if(user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await userManager.DeleteAsync(user);
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("ListOfUsers", "Administration");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("ListOfUsers"); // this code will look for a view named ListOfUsers and redirect to it
+                //return View(ListOfUsers); // this will return an object named 'ListOfUsers' to the view with thesame name as this action method
+                //return "ListOfUsers"; // this will return 'ListOfUsers' as a string value to an empty browser
+            }
+        }
+
         // goto role view
         [HttpGet]
         public IActionResult CreateRole()
         {
             return View();
         }
-
         // add roles
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
@@ -102,7 +126,6 @@ namespace MyAdminBoilerPlate.Controllers
             return View(model);
 
         }
-
         [HttpPost]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
@@ -163,7 +186,6 @@ namespace MyAdminBoilerPlate.Controllers
             ViewBag.rolename = role.Name;
             return View(model);
         }
-
         [HttpPost]
         public async Task<IActionResult> EditRoleUsers(List<UserRoleViewModel> model, string roleId)
         {
