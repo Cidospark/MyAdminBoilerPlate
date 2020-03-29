@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MyAdminBoilerPlate.Models;
 using MyAdminBoilerPlate.ViewModels;
 
@@ -17,14 +19,77 @@ namespace MyAdminBoilerPlate.Controllers
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager;
+        private readonly ILogger<AdministrationController> logger;
 
         // constructor inject role manager
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public AdministrationController(RoleManager<IdentityRole> roleManager, 
+                                        UserManager<ApplicationUser> userManager,
+                                        ILogger<AdministrationController> logger)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
+            this.logger = logger;
         }
-        
+
+
+        [HttpGet]
+        public async Task<IActionResult> ManageUserRoles(string userId)
+        {
+            ViewBag.userId = userId;
+            var user = await userManager.FindByIdAsync(userId);
+
+            if(user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {userId} cannot be found";
+                return View("NotFound");
+            }
+
+            var model = new List<UserRolesViewModel>();
+
+            foreach(var role in roleManager.Roles)
+            {
+                var userRolesViewModel = new UserRolesViewModel
+                {
+                    RoleId = role.Id,
+                    RoleName = role.Name
+                };
+                userRolesViewModel.IsSelected = await userManager.IsInRoleAsync(user, role.Name) ? true : false;
+                model.Add(userRolesViewModel);
+            }
+            
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> model, string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            if(user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
+                return View("NotFound");
+            }
+
+            var roles = await userManager.GetRolesAsync(user);
+            var result = await userManager.RemoveFromRolesAsync(user, roles);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("","Cannot remove existing roles");
+                return View(model);
+            }
+
+            result = await userManager.AddToRolesAsync(user, model.Where(x => x.IsSelected).Select(x => x.RoleName));
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Cannot remove existing roles");
+                return View(model);
+            }
+            return RedirectToAction("Edit", "Account", new { Id = userId });
+
+        }
+
         // list identity users
         [HttpGet]
         public IActionResult ListOfUsers()
@@ -167,21 +232,32 @@ namespace MyAdminBoilerPlate.Controllers
             }
             else
             {
-                var result = await roleManager.DeleteAsync(role);
-
-                if (result.Succeeded)
+                try
                 {
-                    return RedirectToAction("Listroles");
+                    var result = await roleManager.DeleteAsync(role);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Listroles");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View("ListRoles");
                 }
-
-                foreach (var error in result.Errors)
+                catch (DbUpdateException ex)
                 {
-                    ModelState.AddModelError("", error.Description);
+                    logger.LogError($"Error deleting role {ex}");
+                    ViewBag.ErrorTitle = $"{role.Name} role is in use";
+                    ViewBag.ErrorMessage = $"{role.Name} role cannot be deleted as there are " +
+                        $"users in this role.<br/> Please first remove users in this role and try again.";
+                    return View("Error");
                 }
 
             }
 
-            return View("ListRoles");
 
         }
 
@@ -197,26 +273,26 @@ namespace MyAdminBoilerPlate.Controllers
                 return View("NotFound");
             }
 
-            var model = new List<UserRoleViewModel>();
+            var model = new List<RoleUsersViewModel>();
 
             foreach(var user in userManager.Users)
             {
-                var userRoleViewModel = new UserRoleViewModel
+                var RoleUsersViewModel = new RoleUsersViewModel
                 {
                     UserId = user.Id,
                     UserName = user.UserName
                 };
 
-                userRoleViewModel.IsSelected = await userManager.IsInRoleAsync(user, role.Name) ? true : false;
+                RoleUsersViewModel.IsSelected = await userManager.IsInRoleAsync(user, role.Name) ? true : false;
                 
-                model.Add(userRoleViewModel);
+                model.Add(RoleUsersViewModel);
             }
 
             ViewBag.rolename = role.Name;
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> EditRoleUsers(List<UserRoleViewModel> model, string roleId)
+        public async Task<IActionResult> EditRoleUsers(List<RoleUsersViewModel> model, string roleId)
         {
             var role = await roleManager.FindByIdAsync(roleId);
             if(role == null)
@@ -247,11 +323,11 @@ namespace MyAdminBoilerPlate.Controllers
                     if (i < (model.Count - 1))
                         continue;
                     else
-                        return RedirectToAction("EditRole", new { Id = roleId });
+                        return RedirectToAction("ListRoles", new { Id = roleId });
                 }
             }
 
-            return RedirectToAction("EditRole", new { Id = roleId });
+            return RedirectToAction("ListRoles", new { Id = roleId });
         }
 
     }

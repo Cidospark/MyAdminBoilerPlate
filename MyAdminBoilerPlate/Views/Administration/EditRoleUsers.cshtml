@@ -1,4 +1,4 @@
-﻿@model List<UserRoleViewModel>
+﻿@model List<RoleUsersViewModel>
 
 @{ 
     ViewBag.Title = "Edit user role";
@@ -26,7 +26,7 @@
         <div>
             <br />
             <input type="submit" style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;" value="Update" />
-            <a asp-action="ListRoles" style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;" >Cancel</a>
+            <a href="javascript:void()" onclick="window.history.back()" style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;" >Cancel</a>
         </div>
     </div>
 </form>

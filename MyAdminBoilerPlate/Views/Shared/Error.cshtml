@@ -1,29 +1,23 @@
-﻿@{ 
+﻿@{
     ViewBag.Title = "Error stack trace";
     Layout = null;
 }
-<h3>
-    An error occured while processing your request. The support team is notified
-    and we are working on the fix
-</h3>
-<h5>
-    Please contact us on sample@sample.com
-</h5>
-<!--
-<div>
 
-    <h3>Exception Detsils:</h3>
-    <h5>Exception Path</h5>
-    <hr />
-    <p>@ViewBag.ExceptionPath</p>
-
-    <h5>Exception Message</h5>
-    <hr />
-    <p>@ViewBag.ExceptionMessage</p>
-
-    <h5>Exception Stack Trace</h5>
-    <hr />
-    <p>@ViewBag.StackTrace</p>
-
-</div>
--->
+@if (ViewBag.ErrorTitle == null)
+{
+    <h3>
+        An error occured while processing your request. The support team is notified
+        and we are working on the fix
+    </h3>
+    <h5>
+        Please contact us on sample@sample.com
+    </h5>
+}
+else
+{
+    <h3>@ViewBag.ErrorTitle</h3>
+    <hr/>
+    @ViewBag.ErrorMessage
+    <br/><br/>
+    <div><a href="#" onclick="window.history.back()">Back</a></div>
+}
