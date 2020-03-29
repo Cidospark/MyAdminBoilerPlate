@@ -109,19 +109,28 @@ namespace MyAdminBoilerPlate.Controllers
             }
             else
             {
-                var result = await userManager.DeleteAsync(user);
-                if(result.Succeeded)
+                try
                 {
-                    return RedirectToAction("ListOfUsers", "Administration");
-                }
+                    var result = await userManager.DeleteAsync(user);
+                    if(result.Succeeded)
+                    {
+                        return RedirectToAction("ListOfUsers", "Administration");
+                    }
 
-                foreach (var error in result.Errors)
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View("ListOfUsers"); // this code will look for a view named ListOfUsers and redirect to it
+                    //return View(ListOfUsers); // this will return an object named 'ListOfUsers' to the view with thesame name as this action method
+                    //return "ListOfUsers"; // this will return 'ListOfUsers' as a string value to an empty browser
+                }catch(DbUpdateException ex)
                 {
-                    ModelState.AddModelError("", error.Description);
+                    logger.LogError($"Error deleting role {ex}");
+                    ViewBag.ErrorTitle = $"{user.LastName} {user.FirstName} is attached to a role.";
+                    ViewBag.ErrorMessage = $"Please first detach the user from the role, then try again.";
+                    return View("Error");
                 }
-                return View("ListOfUsers"); // this code will look for a view named ListOfUsers and redirect to it
-                //return View(ListOfUsers); // this will return an object named 'ListOfUsers' to the view with thesame name as this action method
-                //return "ListOfUsers"; // this will return 'ListOfUsers' as a string value to an empty browser
             }
         }
 
