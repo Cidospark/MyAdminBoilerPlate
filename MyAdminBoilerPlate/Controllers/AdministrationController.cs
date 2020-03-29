@@ -225,11 +225,11 @@ namespace MyAdminBoilerPlate.Controllers
                     if (i < (model.Count - 1))
                         continue;
                     else
-                        return RedirectToAction("EditRole", new { Id = roleId });
+                        return RedirectToAction("ListRoles", new { Id = roleId });
                 }
             }
 
-            return RedirectToAction("EditRole", new { Id = roleId });
+            return RedirectToAction("ListRoles", new { Id = roleId });
         }
 
     }
