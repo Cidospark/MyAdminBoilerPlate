@@ -39,6 +39,20 @@ namespace MyAdminBoilerPlate
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("con")));
             services.AddMvc();
             services.AddScoped<IUserRepository, SQLUserRepository>();
+
+            services.AddAuthorization(options =>
+            {
+                // claims based authorization policy
+                options.AddPolicy("DeleteRolePolicy", 
+                    policy => policy.RequireClaim("Delete Role")
+                                    .RequireClaim("Create Role")
+                    );
+
+                // you can use policy to add role base autorization too
+                options.AddPolicy("AdminRolePloicy",
+                    policy => policy.RequireRole("Super Admin")
+                   );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

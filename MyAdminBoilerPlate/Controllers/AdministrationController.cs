@@ -15,7 +15,8 @@ using MyAdminBoilerPlate.ViewModels;
 
 namespace MyAdminBoilerPlate.Controllers
 {
-    [Authorize(Roles="Super Admin")]
+    [Authorize(Policy= "AdminRolePloicy")]
+    //[Authorize(Roles = "Super Admin"]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -298,6 +299,7 @@ namespace MyAdminBoilerPlate.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "DeleteRolePolicy")]
         public async Task<IActionResult> DeleteRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
