@@ -31,6 +31,7 @@ namespace MyAdminBoilerPlate
             services.AddIdentity<ApplicationUser, IdentityRole>(options => {    
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 3;
+                options.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<AppDbContext>();
 
                 //services.Configure<IdentityOptions>(options => {
