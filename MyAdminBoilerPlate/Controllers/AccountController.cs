@@ -111,7 +111,7 @@ namespace MyAdminBoilerPlate.Controllers
                 FirstName = user.FirstName,
                 Email = user.Email,
                 ExistingPhotoPath = user.Photo,
-                Claims = userClaims.Select(c => c.Value).ToList(),
+                Claims = userClaims.Where(x => x.Value == "true").Select(c => c.Type+" => "+c.Value).ToList(),
                 Roles = userRoles
             };
 

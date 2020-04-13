@@ -15,8 +15,8 @@ using MyAdminBoilerPlate.ViewModels;
 
 namespace MyAdminBoilerPlate.Controllers
 {
-    [Authorize(Policy= "AdminRolePloicy")]
-    //[Authorize(Roles = "Super Admin"]
+    [Authorize(Policy = "AdminRolePloicy")]
+    //[Authorize(Roles = "Admin")]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -35,6 +35,7 @@ namespace MyAdminBoilerPlate.Controllers
 
         // manage user claims action method
         [HttpGet]
+        [Authorize(Policy = "CustomPolicy")]
         public async Task<IActionResult> ManageUserClaims(string userId)
         {
             // get user by Id
@@ -58,7 +59,7 @@ namespace MyAdminBoilerPlate.Controllers
                     ClaimType = claim.Type
                 };
 
-                if(existingUserClaim.Any(c => c.Type == claim.Type))
+                if(existingUserClaim.Any(c => c.Type == claim.Type && c.Value == "true"))
                 {
                     userClaim.IsSelected = true;
                 }
@@ -68,6 +69,7 @@ namespace MyAdminBoilerPlate.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Policy = "CustomPolicy")]
         public async Task<IActionResult> ManageUserClaims(UserClaimsViewModel model)
         {
             var user = await userManager.FindByIdAsync(model.UserId);
@@ -89,8 +91,10 @@ namespace MyAdminBoilerPlate.Controllers
             }
 
             // retrieve all selected claims
-            result = await userManager.AddClaimsAsync(user, model.Claims.Where(c => c.IsSelected)
-                .Select(c => new Claim(c.ClaimType, c.ClaimType)));
+            result = await userManager.AddClaimsAsync(user, model.Claims
+                                      //.Where(c => c.IsSelected)
+                                      //.Select(c => new Claim(c.ClaimType, c.ClaimType)));
+                                      .Select(c => new Claim(c.ClaimType, c.IsSelected? "true" : "false")));
 
             if (!result.Succeeded)
             {
@@ -101,6 +105,7 @@ namespace MyAdminBoilerPlate.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "CustomPolicy")]
         public async Task<IActionResult> ManageUserRoles(string userId)
         {
             ViewBag.userId = userId;
@@ -128,6 +133,7 @@ namespace MyAdminBoilerPlate.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Policy = "CustomPolicy")]
         public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> model, string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -243,6 +249,7 @@ namespace MyAdminBoilerPlate.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
@@ -269,6 +276,7 @@ namespace MyAdminBoilerPlate.Controllers
 
         }
         [HttpPost]
+        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
             var role = await roleManager.FindByIdAsync(model.Id);
@@ -299,7 +307,7 @@ namespace MyAdminBoilerPlate.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "DeleteRolePolicy")]
+        [Authorize(Policy = "ManageRolePolicy")]
         public async Task<IActionResult> DeleteRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
@@ -340,6 +348,7 @@ namespace MyAdminBoilerPlate.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> EditRoleUsers(string roleId)
         {
             ViewBag.roleId = roleId;
@@ -370,6 +379,7 @@ namespace MyAdminBoilerPlate.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> EditRoleUsers(List<RoleUsersViewModel> model, string roleId)
         {
             var role = await roleManager.FindByIdAsync(roleId);

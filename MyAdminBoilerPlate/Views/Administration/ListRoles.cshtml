@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<IdentityRole>
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService
 
 @{
     ViewBag.Title = "All Roles";
@@ -22,6 +24,8 @@
             </div>
             <hr />
             <div>
+                @if((await authorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded) 
+                { 
                 <form method="post" asp-action="DeleteRole" asp-controller="Administration" asp-route-id="@role.Id">
                     <a asp-action="EditRoleUsers" asp-controller="Administration" asp-route-roleId="@role.Id"
                        style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;">
@@ -37,6 +41,11 @@
                         <a href="#" onclick="delConfirmation('@role.Id',false)">No</a>
                     </span>
                 </form>
+                }
+                else
+                {
+                    <h5 style="color:red; font-family:arial">Roles management denied for your access level.</h5>
+                }
             </div>
             <hr />
         </div>

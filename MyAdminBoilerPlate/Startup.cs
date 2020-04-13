@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyAdminBoilerPlate.Models;
+using MyAdminBoilerPlate.Security;
 
 namespace MyAdminBoilerPlate
 {
@@ -43,16 +45,32 @@ namespace MyAdminBoilerPlate
             services.AddAuthorization(options =>
             {
                 // claims based authorization policy
-                options.AddPolicy("DeleteRolePolicy", 
-                    policy => policy.RequireClaim("Delete Role")
-                                    .RequireClaim("Create Role")
-                    );
+                options.AddPolicy("ManageRolePolicy", policy => 
+                                                      policy.RequireClaim("Delete Role")
+                                                            .RequireClaim("Create Role")
+                );
+
+                options.AddPolicy("EditRolePolicy",
+                   policy => policy.RequireAssertion(context => 
+                                                     context.User.IsInRole("Admin") &&
+                                                     context.User.HasClaim(claim => 
+                                                                           claim.Type == "Edit Role" && 
+                                                                           claim.Value == "true") ||
+                                                     context.User.IsInRole("Super Admin")
+                                                    )
+                   );
+
+                options.AddPolicy("CustomPolicy",
+                  policy => policy.AddRequirements(new ManageAdminRolesAndClaimsRequirement())
+                  );
 
                 // you can use policy to add role base autorization too
-                options.AddPolicy("AdminRolePloicy",
-                    policy => policy.RequireRole("Super Admin")
-                   );
+                options.AddPolicy("AdminRolePloicy", policy => 
+                                                     policy.RequireRole("Super Admin", "Admin")
+                );
             });
+
+            services.AddSingleton<IAuthorizationHandler, CanEditOtherAdminRolesAndClaimsHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
