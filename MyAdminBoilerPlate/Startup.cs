@@ -50,19 +50,19 @@ namespace MyAdminBoilerPlate
                                                             .RequireClaim("Create Role")
                 );
 
-                options.AddPolicy("EditRolePolicy",
-                   policy => policy.RequireAssertion(context => 
-                                                     context.User.IsInRole("Admin") &&
-                                                     context.User.HasClaim(claim => 
-                                                                           claim.Type == "Edit Role" && 
-                                                                           claim.Value == "true") ||
+                options.AddPolicy("EditRolePolicy", policy => 
+                                                    policy.RequireAssertion(context => 
+                                                    context.User.IsInRole("Admin") &&
+                                                    context.User.HasClaim(claim => 
+                                                                          claim.Type == "Edit Role" && 
+                                                                          claim.Value == "true") ||
                                                      context.User.IsInRole("Super Admin")
                                                     )
-                   );
+                );
 
-                options.AddPolicy("CustomPolicy",
-                  policy => policy.AddRequirements(new ManageAdminRolesAndClaimsRequirement())
-                  );
+                options.AddPolicy("CustomPolicy", policy => 
+                                                  policy.AddRequirements(new ManageAdminRolesAndClaimsRequirement())
+                );
 
                 // you can use policy to add role base autorization too
                 options.AddPolicy("AdminRolePloicy", policy => 
