@@ -71,6 +71,7 @@ namespace MyAdminBoilerPlate
             });
 
             services.AddSingleton<IAuthorizationHandler, CanEditOtherAdminRolesAndClaimsHandler>();
+            services.AddSingleton<IAuthorizationHandler, SuperAdminHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
