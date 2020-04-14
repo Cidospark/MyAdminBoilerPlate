@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MyAdminBoilerPlate.Models;
 using MyAdminBoilerPlate.ViewModels;
 
@@ -17,11 +18,15 @@ namespace MyAdminBoilerPlate.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ILogger<AccountController> logger;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<AccountController> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -73,12 +78,23 @@ namespace MyAdminBoilerPlate.Controllers
                 // if result is successful the sign the user in
                 if (result.Succeeded)
                 {
+                    // on successful registration generate email confirmation token and the confirmation link
+                    var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account", 
+                        new { userId = user.Id, token = token }, Request.Scheme);
+                    
+                    // log the confirmation link to a file
+                    logger.Log(LogLevel.Warning, confirmationLink);
+
                     if(signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
                     {
                         return RedirectToAction("ListOfUsers", "Administration");
                     }
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("ListOfUsers", "Administration");
+                    //await signInManager.SignInAsync(user, isPersistent: false);
+                    //return RedirectToAction("ListOfUsers", "Administration");
+                    ViewBag.ErrorTitle = "Registration successful";
+                    ViewBag.ErrorMessage = "Before you can Login, please confirm ypur email, by clicking on the confirmation link we have emailed you";
+                    return View("Error");
                 }
 
                 // if not successful add errors to modelstate
@@ -151,6 +167,37 @@ namespace MyAdminBoilerPlate.Controllers
 
         }
 
+        //---- confirm email starts ----//
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if(userId == null || token == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"The User ID {userId} is invalid";
+                return View("NotFound");
+            }
+
+            var result = await userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return View();
+            }
+
+
+            ViewBag.ErrorTitle = "Email cannot be confirmed";
+            return View("Error");
+        }
+        //---- confirm email ends ----//
+
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -164,10 +211,19 @@ namespace MyAdminBoilerPlate.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Get the user's details by email and check if the user's email is confirmed and password match
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if(user != null && !user.EmailConfirmed && 
+                                    await userManager.CheckPasswordAsync(user, model.Password))
+                {
+                    ModelState.AddModelError(String.Empty, "Email not confirmed yet");
+                    return View(model);
+                }
+                
                 // use the instance to generate a hashed password for the user
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
-                // if result is successful the sign the user in
+                // if result is successful then sign-in the user
                 if (result.Succeeded)
                 {
                     // before redirecting check if return url is empty
