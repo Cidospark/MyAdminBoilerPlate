@@ -5,25 +5,28 @@
 
 <div class="container">
     <h2>Login Here!</h2>
-    <form class="" method="post" asp-action="Login" asp-controller="Account">
+    <form style="max-width:450px;" method="post" asp-action="Login" asp-controller="Account">
         <div asp-validation-summary="ModelOnly"></div>
         <p>
             <div style="display:flex;">
                 <div>
-                    <input asp-for="Email" placeholder="Email" />
+                    <input asp-for="Email" placeholder="Email" autofocus />
                     <div><small><span asp-validation-for="Email"></span></small></div>
                 </div>
                 <div style="margin-right:20px;">
-                    <input asp-for="Password" placeholder="Password" autofocus />
+                    <input asp-for="Password" placeholder="Password" />
                     <div><small><span asp-validation-for="Password"></span></small></div>
                 </div>
             </div>
         </p>
         <p>
             <div style="display:flex;">
-                <label asp-for="RememberMe">
+                <label asp-for="RememberMe" style="margin-right:40px;">
                     <input asp-for="RememberMe" /> @Html.DisplayNameFor(m => m.RememberMe)
                 </label>
+                <div>
+                    <a asp-action="ForgotPassword">Forgot Password?</a>
+                </div>
             </div>
         </p>
         <p>

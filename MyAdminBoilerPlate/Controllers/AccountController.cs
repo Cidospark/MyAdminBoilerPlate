@@ -29,6 +29,84 @@ namespace MyAdminBoilerPlate.Controllers
             this.logger = logger;
         }
 
+        //---- Reset password starts ----//
+        [HttpGet] // Get request handler
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            if(token == null || email == null)
+            {
+                ModelState.AddModelError("", "Invalid password reset token");
+            }
+            ViewBag.Email = email;
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if(user != null)
+                {
+                    var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        return View("ResetPasswordConfirmation");
+                    }
+
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(model);
+                }
+                return View("ResetPasswordConfirmation");
+            }
+
+            return View(model);
+        }
+        //---- Reset password ends ----//
+
+        //---- forgot password starts ----//
+        [HttpGet] // Get request handler
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost] // Post request handler
+        [AllowAnonymous]
+        public async Task<IActionResult> Forgotpassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                // if user is found and user email is confirmed then
+                if(user != null && await userManager.IsEmailConfirmedAsync(user))
+                {
+                    // generate a password reset token
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                    // generate a password reset link using Url action helper
+                    var passwordResetLink = Url.Action("ResetPassword", "Account",
+                        new { email = model.Email, token = token }, Request.Scheme);
+
+                    // log the password reset link to a file
+                    logger.Log(LogLevel.Warning, passwordResetLink);
+
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                return View("ForgotPasswordConfirmation");
+            }
+
+            return View(model);
+
+        }
+        //---- forgot password ends ----//
+
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
