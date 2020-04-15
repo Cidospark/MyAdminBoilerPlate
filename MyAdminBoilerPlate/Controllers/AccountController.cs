@@ -319,6 +319,10 @@ namespace MyAdminBoilerPlate.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
+            if (signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("ListOfUsers","Administration");
+            }
             return View();
         }
         [HttpPost]
