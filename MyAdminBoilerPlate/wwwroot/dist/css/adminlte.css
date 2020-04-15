@@ -19932,17 +19932,16 @@ html.maximized-card {
   margin-top: 10px;
 }
 
-.login-logo,
-.register-logo {
+.s-logo{
   font-size: 2.1rem;
   font-weight: 300;
   margin-bottom: .9rem;
   text-align: center;
+
 }
 
-.login-logo a,
-.register-logo a {
-  color: #495057;
+.s-logo a {
+    color: #495057;
 }
 
 .login-page,
