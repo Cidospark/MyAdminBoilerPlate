@@ -32,13 +32,25 @@ namespace MyAdminBoilerPlate
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 3;
                 options.SignIn.RequireConfirmedEmail = true;
+                options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
             }).AddEntityFrameworkStores<AppDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddTokenProvider<CustomEmailConfirmationTokenProvider<ApplicationUser>>("CustomEmailConfirmation");
 
-                //services.Configure<IdentityOptions>(options => {
-                //    options.Password.RequireDigit = true;
-                //    options.Password.RequiredLength = 3;
-                //});
+            //services.Configure<IdentityOptions>(options => {
+            //    options.Password.RequireDigit = true;
+            //    options.Password.RequiredLength = 3;
+            //});
+
+            services.Configure<DataProtectionTokenProviderOptions>(
+                o => o.TokenLifespan = TimeSpan.FromHours(5)
+            );
+
+            services.Configure<CustomEmailConfirmationTokenProviderOptions>(
+                o => o.TokenLifespan = TimeSpan.FromDays(3)
+            );
 
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("con")));
             services.AddMvc();
@@ -74,6 +86,7 @@ namespace MyAdminBoilerPlate
 
             services.AddSingleton<IAuthorizationHandler, CanEditOtherAdminRolesAndClaimsHandler>();
             services.AddSingleton<IAuthorizationHandler, SuperAdminHandler>();
+            services.AddSingleton<DataProtectionPurposeStrings>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

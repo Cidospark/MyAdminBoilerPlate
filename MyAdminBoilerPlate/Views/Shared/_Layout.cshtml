@@ -19,10 +19,12 @@
                 <span><b><a href="~/foo.html">TEST SITE</a></b></span>
                 <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
                 <span><a asp-action="ListOfUsers" asp-controller="Administration">Registered Users</a></span>
-                @if (signInManager.IsSignedIn(User) && (User.IsInRole("Super Admin")||User.IsInRole("Admin")))
+                @if (signInManager.IsSignedIn(User) && (User.IsInRole("Super Admin") || User.IsInRole("Admin")))
                 {
-                <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
-                <span><a asp-action="ListRoles" asp-controller="Administration">Users Roles</a></span>
+                    <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                    <span><a asp-action="ListRoles" asp-controller="Administration">Users Roles</a></span>
+                    <span style="display:inline-block; width:20px; text-align:center;color:#ccc;"> | </span>
+                    <span><a asp-action="ChangePassword" asp-controller="Account">Change Password</a></span>
                 }
             </div>
             <div>

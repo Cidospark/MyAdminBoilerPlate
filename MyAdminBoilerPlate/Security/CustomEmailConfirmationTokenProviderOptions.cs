@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyAdminBoilerPlate.Security
 {
-    public class CustomEmailConfirmationTokenProviderOptions
+    public class CustomEmailConfirmationTokenProviderOptions : DataProtectionTokenProviderOptions
     {
+
     }
 }

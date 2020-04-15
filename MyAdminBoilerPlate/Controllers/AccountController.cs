@@ -29,6 +29,40 @@ namespace MyAdminBoilerPlate.Controllers
             this.logger = logger;
         }
 
+        //---- Change password starts ----//
+        [HttpGet] // Get request handler
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.GetUserAsync(User);
+                if(user == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View();
+                }
+                await signInManager.RefreshSignInAsync(user);
+                return View("ChangePasswordConfirmation");
+            }
+            return View(model);
+        }
+        //---- Change password ends ----//
+
         //---- Reset password starts ----//
         [HttpGet] // Get request handler
         [AllowAnonymous]
@@ -53,6 +87,10 @@ namespace MyAdminBoilerPlate.Controllers
                     var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
                     if (result.Succeeded)
                     {
+                        if(await userManager.IsLockedOutAsync(user))
+                        {
+                            await userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+                        }
                         return View("ResetPasswordConfirmation");
                     }
 
@@ -299,7 +337,7 @@ namespace MyAdminBoilerPlate.Controllers
                 }
                 
                 // use the instance to generate a hashed password for the user
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 
                 // if result is successful then sign-in the user
                 if (result.Succeeded)
@@ -313,6 +351,11 @@ namespace MyAdminBoilerPlate.Controllers
                     {
                         return RedirectToAction("ListOfUsers", "Administration");
                     }
+                }
+
+                if (result.IsLockedOut)
+                {
+                    return View("AccountLockedout");
                 }
 
                 // if not successful add errors to modelstate
