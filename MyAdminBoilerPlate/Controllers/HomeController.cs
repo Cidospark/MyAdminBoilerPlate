@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyAdminBoilerPlate.Models;
 using MyAdminBoilerPlate.ViewModels;
@@ -16,11 +17,15 @@ namespace MyAdminBoilerPlate.Controllers
     {
         private readonly IUserRepository userRepository;
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(IUserRepository userRepository, IHostingEnvironment hostingEnvironment)
+        public HomeController(IUserRepository userRepository, 
+                              IHostingEnvironment hostingEnvironment,
+                              UserManager<ApplicationUser> userManager)
         {
             this.userRepository = userRepository;
             this.hostingEnvironment = hostingEnvironment;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -32,29 +37,36 @@ namespace MyAdminBoilerPlate.Controllers
         }
 
         [HttpGet]
-                public IActionResult Details(string Id)
-                {
-                    // un-comment the line beloww to test the nlog functionality
-                    //throw new Exception("Error in Details");
-                    ApplicationUser user = userRepository.GetUser(Id);
+        public IActionResult Details(string Id)
+        {
+            string pg = "User's Details";
+            // un-comment the line beloww to test the nlog functionality
+            //throw new Exception("Error in Details");
+            ApplicationUser user = userRepository.GetUser(Id);
                     
-                    // to handle 404 errors for un-known id
-                    if(user == null)
-                    {
-                        Response.StatusCode = 404;
-                        return View("IdNotFound");
-                    }
+            // to handle 404 errors for un-known id
+            if(user == null)
+            {
+                Response.StatusCode = 404;
+                return View("IdNotFound");
+            }
 
-                    HomeDetailsViewModel hdvm = new HomeDetailsViewModel()
-                    {
-                        pageTitle = "Users Details",
-                        user = user
-                    };
+            if (userManager.GetUserId(User).Equals(Id))
+            {
+                pg = "Your Profile";
+            }
+            
 
-                    //var model = userRepository.GetUser(1);
-                    //ViewData["Title"] = "Users Details";
-                    return View(hdvm);
-                }
+            HomeDetailsViewModel hdvm = new HomeDetailsViewModel()
+            {
+                pageTitle = pg,
+                user = user
+            };
+
+            //var model = userRepository.GetUser(1);
+            //ViewData["Title"] = "Users Details";
+            return View(hdvm);
+        }
 
     }
 }
