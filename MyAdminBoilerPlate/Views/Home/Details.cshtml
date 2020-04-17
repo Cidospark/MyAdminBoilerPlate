@@ -1,5 +1,6 @@
 ﻿@model HomeDetailsViewModel
 @inject UserManager<ApplicationUser> userMngr
+@inject SignInManager<ApplicationUser> signMngr
 
 @{
     ViewBag.Title = Model.pageTitle;
@@ -58,8 +59,9 @@
                                     <b><i class="fas fa-briefcase"></i> &nbsp; Job Description : </b> <a class="float-right">Digital Strategist</a>
                                 </li>
                             </ul>
-
-                            <a asp-action="ChangePassword" asp-controller="Account" class="btn btn-primary btn-block"><b>Reset Password</b></a>
+                            @if (Model.user.Email == User.Identity.Name) { 
+                                <a asp-action="ChangePassword" asp-controller="Account" asp-route-id="@Model.user.Id" class="btn btn-primary btn-block"><b>Reset Password</b></a>
+                            }
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -68,7 +70,7 @@
 
                 <!-- About Me Box -->
                 <div class="col-md-8">
-                    <div class="card card-primary ">
+                    <div class="card card-navy ">
                         <div class="card-header">
                             <h3 class="card-title">About Me</h3>
                         </div>

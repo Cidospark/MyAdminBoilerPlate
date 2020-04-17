@@ -31,9 +31,12 @@ namespace MyAdminBoilerPlate.Controllers
 
         //---- Change password starts ----//
         [HttpGet] // Get request handler
-        public IActionResult ChangePassword()
+        public IActionResult ChangePassword(string Id)
         {
-            return View();
+            if (userManager.GetUserId(User).Equals(Id))
+                return View();
+            else
+                return RedirectToAction("ListOfUsers", "Administration");
         }
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
