@@ -1,7 +1,6 @@
 ﻿@model EditUserViewModel
 
-<hr/>
-<div>
+<div class="p-4">
     <div><big><b>User Roles</b></big></div>
     <div>
         @if (Model.Roles.Any())
@@ -18,8 +17,8 @@
             <h5>None at the moment</h5>
         }
         <div>
-            <a style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;" 
-               asp-action="ManageUserRoles" asp-route-userId="@Model.UserId"  asp-controller="Administration">Manage Roles</a>
+            <a class="btn btn-primary" asp-action="ManageUserRoles" 
+               asp-route-userId="@Model.UserId"  asp-controller="Administration">Manage Roles</a>
         </div>
     </div>
 </div>

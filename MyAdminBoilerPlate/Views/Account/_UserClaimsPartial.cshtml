@@ -1,7 +1,6 @@
 ﻿@model EditUserViewModel
 
-<hr />
-<div>
+<div class="p-4">
     <div><big><b>User Claims</b></big></div>
     <div>
         @if (Model.Claims.Any())
@@ -19,8 +18,7 @@
         }
         <div>
             <a asp-action="ManageUserClaims" asp-route-userId="@Model.UserId" asp-controller="Administration"
-               style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;">Manage Claims</a>
+              class="btn btn-primary" >Manage Claims</a>
         </div>
     </div>
 </div>
-<hr />

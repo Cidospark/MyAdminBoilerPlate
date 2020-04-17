@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ApplicationUser>
 @inject UserManager<ApplicationUser> userMngr
 @{
-    ViewBag.Title = "List of users";
+    ViewBag.Title = "List of Users";
     Layout = "_AdminLayout";
     var num = @TempData["numOfUsers"] == null ? 0 : @TempData["numOfUsers"];
     string[] pixs = { "avatar.png","user5-128x128.jpg", "user7-128x128.jpg", "user8-128x128.jpg" };
@@ -15,12 +15,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Users</h1>
+                    <h1>@ViewBag.Title</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Users</li>
+                        <li class="breadcrumb-item"><a href="#">@ViewContext.RouteData.Values["controller"].ToString()</a></li>
+                        <li class="breadcrumb-item active">@ViewContext.RouteData.Values["action"].ToString()</li>
                     </ol>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                         {
                             counter = 0;
                         }
-                        <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="flex:2 1 360px;">
+                       <div class="col-12 col-sm-6 col-md-4">
                             <div class="card bg-light">
                                 <div class="card-header text-muted border-bottom-0">
                                     @userMngr.GetRolesAsync(singleUser).Result.First()
@@ -50,10 +50,10 @@
                                         <div class="col-7">
                                             <h2 class="lead"><b>@singleUser.LastName @singleUser.FirstName</b></h2>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
-                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> <small>Phone #: + 800 - 12 12 23 52</small></li>
-                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> <small>@singleUser.Email</small></li>
-                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-lg fa-briefcase"></i></span> <small>Digital Strategist</small></li>
-                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-lg fa-map-marker-alt"></i></span> <small>Lagos, Nigeria</small></li>
+                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-phone"></i></span> +234 8212 223 152</li>
+                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-envelope"></i></span> @singleUser.Email</li>
+                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-briefcase"></i></span> Digital Strategist</li>
+                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-map-marker-alt"></i></span> Lagos, Nigeria</li>
                                             </ul>
                                         </div>
                                         <div class="col-5 text-center">

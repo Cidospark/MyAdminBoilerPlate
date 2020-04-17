@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> userManager;
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -55,7 +57,7 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                
+
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -94,7 +96,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="#" class="brand-link">
                 <img src="~/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">Admin BoilerP</span>
@@ -108,14 +110,22 @@
                         <img src="~/dist/img/pix1.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Cidos Spark</a>
+                        <a href="#" class="d-block">
+                            @if (signInManager.IsSignedIn(User))
+                            {
+                                <span><a asp-action="Details" asp-controller="Home" asp-route-id="@userManager.GetUserId(User)">
+                                    @userManager.GetUserAsync(User).Result.LastName 
+                                    @userManager.GetUserAsync(User).Result.FirstName 
+                                </a></span>
+                            }
+                        </a>
                     </div>
                 </div>
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -135,20 +145,58 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a asp-action="CreateUser" asp-controller="Account" class="nav-link">
-                                        <i class="fa fa-pen nav-icon"></i>
+                                        <i class="fa fa-user-plus nav-icon"></i>
                                         <p>Add User</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-action="ListOfUsers" asp-controller="Administration" class="nav-link">
+                                        <i class="fa fa-users nav-icon"></i>
+                                        <p>List of Users</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-tools"></i>
+                                <p>
+                                    Roles
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-action="CreateRole" asp-controller="Administration" class="nav-link">
+                                        <i class="fa fa-plus nav-icon"></i>
+                                        <p>Create Role</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-action="ListRoles" asp-controller="Administration" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Roles</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item">
+                            <a  asp-action="Details" asp-controller="Home" asp-route-id="@userManager.GetUserId(User)" class="nav-link">
+                                <i class="nav-icon fas fa-user-tie"></i>
+                                <p>
+                                    Profile
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <form method="post" asp-action="Logout" asp-controller="Account">
-                                <button type="submit"  class="nav-link text-danger bg-transparent border-0" style="width:auto;">
+                                <button type="submit" class="nav-link text-danger bg-transparent border-0" style="width:auto;">
                                     <i class="fa fa-power-off nav-icon"></i>
                                     <p>Logout</p>
                                 </button>
                             </form>
-                        </li>                        
+                        </li>
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -165,8 +213,6 @@
             </div>
         </div>
         <!-- /.content-wrapper -->
-
-
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
@@ -180,7 +226,6 @@
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                <small>Anything you want</small>
             </div>
             <!-- Default to the left -->
             <small>Copyright &copy; @DateTime.Now.Year <a href="#">Admin BoilerP</a>. All rights reserved.</small>

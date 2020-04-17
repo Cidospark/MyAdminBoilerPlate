@@ -1,39 +1,113 @@
 ﻿@model EditUserViewModel
 @{
-    ViewBag.Title = "Edit user";
+    ViewBag.Title = "Edit User";
+    Layout = "../Administration/_AdminLayout";
     var photoPath = "~/images/" + (Model.ExistingPhotoPath ?? "pix1.jpg");
 }
 
-    <div class="container">
-        <h2>@ViewBag.Title</h2>
-        <form enctype="multipart/form-data" method="post" asp-action="edit">
-            <input asp-for="UserId" hidden />
-            <input asp-for="ExistingPhotoPath" hidden />
-            <p>
-                <input asp-for="FirstName" placeholder="First Name" autofocus />
-                <input asp-for="LastName" placeholder="Last Name" />
-            </p>
-            <p>
-                <input asp-for="Email" placeholder="Email..." />
-                <span asp-validation-for="Email"></span>
-            </p>
-            <!--
-    <p>
-        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
-        </select>
-    </p>
-    <p>
-        <input asp-for="Pix" />
-    </p>
-    -->
-            <p>
-                <button type="submit">Submit</button>
-                <a asp-action="ListOfUsers" asp-controller="Administration">Cancel</a>
-            </p>
-            <img src="@photoPath" width="150" asp-append-version="true" />
-        </form>
+<!-- Content Wrapper. Contains page content -->
+    <div class="">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>@ViewBag.Title</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">@ViewContext.RouteData.Values["controller"].ToString()</a></li>
+                            <li class="breadcrumb-item active">@ViewContext.RouteData.Values["action"].ToString()</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
 
-        <partial name="_UserRolesPartial.cshtml" />
-        <partial name="_UserClaimsPartial.cshtml" />
+        <div class="row pl-3 pr-3">
 
+            <!-- left column -->
+            <div class="col-sm-8">
+                <!-- general form elements -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><b>@Model.LastName @Model.FirstName's</b> Details</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form" enctype="multipart/form-data" method="post" asp-action="edit">
+                        <div class="card-body">
+                            <input asp-for="UserId" hidden />
+                            <input asp-for="ExistingPhotoPath" hidden />
+
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="FirstName"></label>
+                                        <input asp-for="FirstName" placeholder="First Name" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="LastName"></label>
+                                        <input asp-for="LastName" placeholder="Last Name" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="Email"></label>
+                                <input asp-for="Email" placeholder="Email" class="form-control" />
+                            </div>
+
+                            <!--
+                        <div class="form-group">
+                            <label for="exampleInputFile">File input</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="exampleInputFile">
+                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="">Upload</span>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a asp-action="ListOfUsers" asp-controller="Administration" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.content-wrapper -->
+            <!-- right column -->
+            <div class="col-sm-4">
+                <!-- general form elements -->
+                <div class="card card-navy">
+                    <div class="card-header">
+                        <h3 class="card-title"><b>@Model.LastName @Model.FirstName's</b> Roles &amp; Claims</h3>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <partial name="_UserRolesPartial.cshtml" />
+                    <partial name="_UserClaimsPartial.cshtml" />
+
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.content-wrapper -->
+
+        </div>
     </div>
+

@@ -13,9 +13,11 @@ namespace MyAdminBoilerPlate.ViewModels
     public class CreateUserViewModel
     {
         [Required(ErrorMessage = "Lastname required")]
+        [Display(Name = "Last name : ")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Firstname require")]
+        [Display(Name = "First name : ")]
         public string FirstName { get; set; }
         //[Required]
         //public Gender Gender { get; set; }
