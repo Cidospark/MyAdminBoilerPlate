@@ -32,6 +32,7 @@
 
         <!-- Default box -->
         <div class="card card-solid">
+            <div class="text-danger text-center">@ViewBag.AccessErr</div>
             <div class="card-body pb-0">
                 <div class="row d-flex align-items-stretch">
                     @foreach (var singleUser in Model)
@@ -43,15 +44,15 @@
                        <div class="col-12 col-sm-6 col-md-4">
                             <div class="card bg-light">
                                 <div class="card-header text-muted border-bottom-0">
-                                    @userMngr.GetRolesAsync(singleUser).Result.First()
+                                    ADMIN
                                 </div>
                                 <div class="card-body pt-0">
                                     <div class="row ">
                                         <div class="col-7">
                                             <h2 class="lead"><b>@singleUser.LastName @singleUser.FirstName</b></h2>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
-                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-phone"></i></span> +234 8212 223 152</li>
                                                 <li class="small pt-1"><span class="fa-li"><i class="fas fa-envelope"></i></span> @singleUser.Email</li>
+                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-phone"></i></span> +234 8212 223 152</li>
                                                 <li class="small pt-1"><span class="fa-li"><i class="fas fa-briefcase"></i></span> Digital Strategist</li>
                                                 <li class="small pt-1"><span class="fa-li"><i class="fas fa-map-marker-alt"></i></span> Lagos, Nigeria</li>
                                             </ul>
@@ -63,16 +64,26 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="text-right">
-                                        <a asp-action="Details" asp-controller="Home" asp-route-id="@singleUser.Id" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-record-vinyl"></i> View
-                                        </a>
-                                        <a asp-action="Edit" asp-controller="Account" asp-route-id="@singleUser.Id" class="btn btn-sm btn-success">
-                                            <i class="fas fa-edit"></i> Edit
-                                        </a>
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </button>
+                                        <form method="post" asp-action="DeleteUser" asp-controller="Administration" asp-route-id="@singleUser.Id">
+                                            <a asp-action="Details" asp-controller="Home" asp-route-id="@singleUser.Id" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-folder"></i> View
+                                            </a>
+                                            
+                                            @if (userMngr.GetUserId(User) == singleUser.Id)
+                                            {
+                                                <a asp-action="Edit" asp-controller="Account" asp-route-id="@singleUser.Id" class="btn btn-sm btn-success">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                            }
+
+                                            @if (User.IsInRole("Super Admin"))
+                                            {
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Please confirm your action! to delete : @singleUser.FirstName @singleUser.LastName');">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            }
+                                        </form>
                                     </div>
                                 </div>
                             </div>

@@ -1,27 +1,68 @@
 ﻿@model UserClaimsViewModel
+@{
+    var userId = ViewBag.userId;
+    ViewBag.Title = "Manage User Claims";
+    Layout = "_AdminLayout";
+}
+<div>
 
-<form method="post">
-    <div>
-        <div>
-            <h2>Manage User Claims</h2>
-            <hr />
-        </div>
-        <div>
-            @for(int i=0; i < Model.Claims.Count; i++)
-            {
-                <div>
-                    <input type="hidden" asp-for="@Model.Claims[i].ClaimType" />
-                    <input asp-for="@Model.Claims[i].IsSelected" class="" />
-                    <label class="" asp-for="@Model.Claims[i].IsSelected">
-                        @Model.Claims[i].ClaimType
-                    </label>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6 pl-3">
+                    <h1>@ViewBag.Title</h1>
                 </div>
-            }
-            <div asp-validation-summary="All"></div>
-        </div>
-        <div>
-            <input type="submit" value="Update" class="" style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px; width:auto;" />
-            <a href="javascript:void()" onclick="window.history.back()" style="text-decoration:none; padding:5px; border:1px solid grey; border-radius:4px;">Cancel</a>
-        </div>
-    </div>
-</form>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">@ViewContext.RouteData.Values["controller"].ToString()</a></li>
+                        <li class="breadcrumb-item active">@ViewContext.RouteData.Values["action"].ToString()</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row pl-3 pr-3">
+                <!-- About Me Box -->
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline ">
+                        <div class="card-header">
+                            <h3 class="card-title">Add or Remove User Claims for <b>@ViewBag.Fullname</b></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <form method="post">
+                                <div class="form-check">
+                                    @for (int i = 0; i < Model.Claims.Count; i++)
+                                    {
+                                        <div>
+                                            <input type="hidden" asp-for="@Model.Claims[i].ClaimType" />
+                                            <input asp-for="@Model.Claims[i].IsSelected" class="form-check-input" />
+                                            <label class="" asp-for="@Model.Claims[i].IsSelected">
+                                                @Model.Claims[i].ClaimType
+                                            </label>
+                                        </div>
+                                    }
+                                    <div asp-validation-summary="All"></div>
+                                </div>
+                                <br />
+                                <div>
+                                    <input type="submit" value="Update" class="btn btn-primary" />
+                                    <a href="javascript:void()" onclick="window.history.back()" class="btn btn-outline-danger">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+
+                <!-- /.card -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

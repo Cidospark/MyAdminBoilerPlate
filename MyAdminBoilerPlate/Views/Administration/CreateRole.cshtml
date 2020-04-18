@@ -1,29 +1,66 @@
 ﻿@model CreateRoleViewModel
 @{
     ViewBag.Title = "Create New Role";
+    Layout = "_AdminLayout";
 }
-<style>
-    .no-bullet ul{
-        list-style:none;
-        padding-left:0px;
-        color:#faa;
-        margin-left:0px;        
-    }
-</style>
-<div class="container">
-    <h2>@ViewBag.Title</h2>
-    <form method="post" asp-action="CreateRole" asp-controller="Administration">
-        <div asp-validation-summary="ModelOnly" class="no-bullet"></div>
-        <p>
-            <div style="display:flex;">
-                <div>
-                    <input asp-for="RoleName" placeholder="Role Name" />
-                    <div><small><span asp-validation-for="RoleName"></span></small></div>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>@ViewBag.Title</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">@ViewContext.RouteData.Values["controller"].ToString()</a></li>
+                        <li class="breadcrumb-item active">@ViewContext.RouteData.Values["action"].ToString()</li>
+                    </ol>
                 </div>
             </div>
-        </p>       
-        <p>
-            <button type="submit">Create Role</button>
-        </p>
-    </form>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <div class="row pl-3 pr-3">
+
+        <!-- left column -->
+        <div class="col-sm-12">
+            <!-- general form elements -->
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title"><b>Add New Role</b></h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" method="post" asp-action="CreateRole" asp-controller="Administration">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="no-bullet"></div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label asp-for="RoleName"></label>
+                                    <input asp-for="RoleName" placeholder="Role Name"  class="form-control" />
+                                </div>
+                                <span asp-validation-for="RoleName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Create Role</button>
+                        <a onclick="window.history.back()" class="btn btn-outline-danger">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.content-wrapper -->
+        
+    </div>
 </div>
+

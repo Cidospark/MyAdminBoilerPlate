@@ -57,38 +57,12 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-
-                <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-                        <i class="fas fa-th-large"></i>
-                    </a>
+                    <form method="post" asp-action="Logout" asp-controller="Account">
+                        <button type="submit" class="nav-link text-danger bg-transparent border-0 " style="width:auto;">
+                            <i class="fa fa-power-off nav-icon"></i> Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </nav>
@@ -134,6 +108,14 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a asp-action="Details" asp-controller="Home" asp-route-id="@userManager.GetUserId(User)" class="nav-link">
+                                <i class="nav-icon fas fa-user-tie"></i>
+                                <p>
+                                    Profile
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
@@ -159,44 +141,27 @@
                         </li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-tools"></i>
+                                <i class="nav-icon fa fa-cog"></i>
                                 <p>
-                                    Roles
+                                    Settings
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-action="CreateRole" asp-controller="Administration" class="nav-link">
-                                        <i class="fa fa-plus nav-icon"></i>
-                                        <p>Create Role</p>
+                                    <a asp-action="ListRoles" asp-controller="Administration" class="nav-link">
+                                        <i class="far fa-circle nav-icon text-primary"></i>
+                                        <p>Manage Roles</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a asp-action="ListRoles" asp-controller="Administration" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>All Roles</p>
+                                        <i class="far fa-circle nav-icon text-warning"></i>
+                                        <p>Manage Claims</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a  asp-action="Details" asp-controller="Home" asp-route-id="@userManager.GetUserId(User)" class="nav-link">
-                                <i class="nav-icon fas fa-user-tie"></i>
-                                <p>
-                                    Profile
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <form method="post" asp-action="Logout" asp-controller="Account">
-                                <button type="submit" class="nav-link text-danger bg-transparent border-0" style="width:auto;">
-                                    <i class="fa fa-power-off nav-icon"></i>
-                                    <p>Logout</p>
-                                </button>
-                            </form>
-                        </li>
-
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

@@ -228,6 +228,11 @@ namespace MyAdminBoilerPlate.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            if(userManager.GetUserId(User) != id)
+            {
+                ViewBag.AccessErr = "Access denied!";
+                return RedirectToAction("ListOfUsers", "Administration");
+            }
             var user = await userManager.FindByIdAsync(id);
 
             if(user == null)
@@ -246,7 +251,7 @@ namespace MyAdminBoilerPlate.Controllers
                 FirstName = user.FirstName,
                 Email = user.Email,
                 ExistingPhotoPath = user.Photo,
-                Claims = userClaims.Where(x => x.Value == "true").Select(c => c.Type+" => "+c.Value).ToList(),
+                Claims = userClaims.Where(x => x.Value == "true").Select(c => c.Type).ToList(),
                 Roles = userRoles
             };
 

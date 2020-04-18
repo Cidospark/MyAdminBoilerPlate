@@ -65,7 +65,8 @@ namespace MyAdminBoilerPlate.Controllers
                 }
 
                 model.Claims.Add(userClaim);
-            }
+            };
+            ViewBag.Fullname = $"{user.LastName} {user.FirstName}";
             return View(model);
         }
         [HttpPost]
@@ -126,10 +127,11 @@ namespace MyAdminBoilerPlate.Controllers
                     RoleId = role.Id,
                     RoleName = role.Name
                 };
+                ViewBag.Fullname = $"{user.LastName} {user.FirstName}";
                 userRolesViewModel.IsSelected = await userManager.IsInRoleAsync(user, role.Name) ? true : false;
                 model.Add(userRolesViewModel);
             }
-            
+
             return View(model);
         }
         [HttpPost]
@@ -175,6 +177,12 @@ namespace MyAdminBoilerPlate.Controllers
 
         public async Task<IActionResult> DeleteUser(string id)
         {
+            if (!User.IsInRole("Super Admin"))
+            {
+                ViewBag.AccessErr = "Access denied!";
+                return RedirectToAction("ListOfUsers", "Administration");
+            }
+
             var user = await userManager.FindByIdAsync(id);
             if(user == null)
             {
