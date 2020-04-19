@@ -26,5 +26,8 @@ namespace MyAdminBoilerPlate.ViewModels
 
         public List<string> Claims { get; set; }
         public IList<string> Roles { get; set; }
+
+        [Display(Name="Photo")]
+        public IFormFile formPhoto { get; set; }
     }
 }

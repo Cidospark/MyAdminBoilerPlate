@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MyAdminBoilerPlate.Helpers;
 using MyAdminBoilerPlate.Models;
 using MyAdminBoilerPlate.ViewModels;
 
@@ -19,14 +22,20 @@ namespace MyAdminBoilerPlate.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<AccountController> logger;
+        private readonly IHostingEnvironment hostingEnvironment;
+        MyUtil myUtil;
 
         public AccountController(UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IHostingEnvironment hostingEnvironment
+            )
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
+            this.hostingEnvironment = hostingEnvironment;
+            this.myUtil = new MyUtil(hostingEnvironment);
         }
 
         //---- Change password starts ----//
@@ -228,7 +237,7 @@ namespace MyAdminBoilerPlate.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            if(userManager.GetUserId(User) != id)
+            if(!User.IsInRole("Super Admin") && !userManager.GetUserId(User).Equals(id))
             {
                 ViewBag.AccessErr = "Access denied!";
                 return RedirectToAction("ListOfUsers", "Administration");
@@ -261,6 +270,25 @@ namespace MyAdminBoilerPlate.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
+            string uniqueFilename = null;
+            // if photo is selected
+            if(model.formPhoto != null)
+            {
+                // if there is an existing photo
+                if(model.ExistingPhotoPath != null)
+                {
+                    // delete the existing photo
+                    // get the path to the wwwroot folder combined with file name, then delete it
+                    var fullPath = Path.Combine(hostingEnvironment.WebRootPath, "images", model.ExistingPhotoPath);
+                    System.IO.File.Delete(fullPath);
+                }
+                uniqueFilename = myUtil.FileUpload(model);
+            }
+            else
+            {
+                uniqueFilename = model.ExistingPhotoPath;
+            }
+
             var user = await userManager.FindByIdAsync(model.UserId);
 
             if (user == null)
@@ -274,6 +302,7 @@ namespace MyAdminBoilerPlate.Controllers
                 user.FirstName = model.FirstName;
                 user.Email = model.Email;
                 user.UserName = model.Email;
+                user.Photo = uniqueFilename;
 
                 var result = await userManager.UpdateAsync(user);
                 if (result.Succeeded)

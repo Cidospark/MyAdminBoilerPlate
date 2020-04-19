@@ -4,8 +4,7 @@
     ViewBag.Title = "List of Users";
     Layout = "_AdminLayout";
     var num = @TempData["numOfUsers"] == null ? 0 : @TempData["numOfUsers"];
-    string[] pixs = { "avatar.png","user5-128x128.jpg", "user7-128x128.jpg", "user8-128x128.jpg" };
-    int counter = 0;
+    
 }
 
 <!-- Content Wrapper. Contains page content -->
@@ -37,10 +36,9 @@
                 <div class="row d-flex align-items-stretch">
                     @foreach (var singleUser in Model)
                     {
-                        @if(counter == pixs.Length)
-                        {
-                            counter = 0;
-                        }
+                        var photoPath = "~/images/"+(singleUser.Photo ?? "pix1.jpg");
+
+                        
                        <div class="col-12 col-sm-6 col-md-4">
                             <div class="card bg-light">
                                 <div class="card-header text-muted border-bottom-0">
@@ -58,7 +56,8 @@
                                             </ul>
                                         </div>
                                         <div class="col-5 text-center">
-                                            <img src="../../dist/img/@pixs[counter]" alt="" class="img-circle img-fluid">
+                                            <img src="@photoPath" alt="@singleUser.LastName" class="rounded img-fluid" asp-append-version="true" />
+                                            @*<img src="~/images/pix1.jpg" />*@
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +68,7 @@
                                                 <i class="fas fa-folder"></i> View
                                             </a>
                                             
-                                            @if (userMngr.GetUserId(User) == singleUser.Id)
+                                            @if (userMngr.GetUserId(User) == singleUser.Id || User.IsInRole("Super Admin"))
                                             {
                                                 <a asp-action="Edit" asp-controller="Account" asp-route-id="@singleUser.Id" class="btn btn-sm btn-success">
                                                     <i class="fas fa-edit"></i> Edit
@@ -88,7 +87,6 @@
                                 </div>
                             </div>
                         </div>
-                        counter += 1; 
                      }
                 </div>
             </div>

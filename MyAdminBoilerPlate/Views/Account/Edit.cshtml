@@ -6,32 +6,40 @@
 }
 
 <!-- Content Wrapper. Contains page content -->
-    <div class="">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>@ViewBag.Title</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">@ViewContext.RouteData.Values["controller"].ToString()</a></li>
-                            <li class="breadcrumb-item active">@ViewContext.RouteData.Values["action"].ToString()</li>
-                        </ol>
-                    </div>
+<div class="">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>@ViewBag.Title</h1>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">@ViewContext.RouteData.Values["controller"].ToString()</a></li>
+                        <li class="breadcrumb-item active">@ViewContext.RouteData.Values["action"].ToString()</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 
-        <div class="row pl-3 pr-3">
+    <div class="row pl-3 pr-3">
 
+        @if (Model.Email == User.Identity.Name)
+        {
             <!-- left column -->
             <div class="col-sm-8">
                 <!-- general form elements -->
                 <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title"><b>@Model.LastName @Model.FirstName's</b> Details</h3>
+                    <div class="p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="image mr-4">
+                                <img src="@photoPath" class="img-circle elevation-2" style="width:100px;" alt="@photoPath" asp-append-version="true" />
+                            </div>
+                            <h1 class="card-title" style="font-size:40px;"><b>@Model.LastName @Model.FirstName</b></h1>
+                        </div>
+                        
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -56,27 +64,32 @@
                                     <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
                             </div>
-
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                            <div class="form-group">
-                                <label asp-for="Email"></label>
-                                <input asp-for="Email" placeholder="Email" class="form-control" />
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                    <div class="form-group mt-1">
+                                        <label asp-for="Email"></label>
+                                        <input asp-for="Email" placeholder="Email" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="formPhoto" class="col-form-label"></label>
+                                        <div class="">
+                                            <div class="custom-file col-sm-12 ">
+                                                <input asp-for="formPhoto" type="file" class="custom-file-input form-control" />
+                                                <label class="custom-file-label">Pick a photo</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+
 
                             <!--
-                        <div class="form-group">
-                            <label for="exampleInputFile">File input</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="exampleInputFile">
-                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                </div>
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="">Upload</span>
-                                </div>
-                            </div>
-                        </div>
-                        -->
+                            -->
+
                         </div>
                         <!-- /.card-body -->
 
@@ -90,7 +103,10 @@
 
             </div>
             <!-- /.content-wrapper -->
+
+
             <!-- right column -->
+
             <div class="col-sm-4">
                 <!-- general form elements -->
                 <div class="card card-navy">
@@ -108,6 +124,45 @@
             </div>
             <!-- /.content-wrapper -->
 
-        </div>
-    </div>
+        }
+        else
+        {
 
+            <div class="col-sm-12">
+                <!-- general form elements -->
+                <div class="card card-navy">
+                    <div class="card-header">
+                        <h3 class="card-title"><b>@Model.LastName @Model.FirstName's</b> Roles &amp; Claims</h3>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <partial name="_UserRolesPartial.cshtml" />
+                    <partial name="_UserClaimsPartial.cshtml" />
+
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.content-wrapper -->
+
+        }
+
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        // when document is ready
+        // run the anonymous function
+        // on change on custom-file-input element
+        // get the value from the element and split it then pop out the last item
+        // add the popped out item to the label element
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var filename = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(filename);
+            })
+        })
+    </script>
+}
