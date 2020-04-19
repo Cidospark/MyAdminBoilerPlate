@@ -24,6 +24,12 @@ namespace MyAdminBoilerPlate.ViewModels
         [ValidEmailDomain(allowedDomain: "sample.com", ErrorMessage = "Email domain must be 'sample.com'")]
         public new string Email { get; set; }
 
+        public string Nationality { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string PhoneNumber { get; set; }
+
         public List<string> Claims { get; set; }
         public IList<string> Roles { get; set; }
 

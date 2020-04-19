@@ -66,13 +66,46 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="PhoneNumber"></label>
+                                        <input asp-for="PhoneNumber" placeholder="PhoneNumber" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                     <div class="form-group mt-1">
                                         <label asp-for="Email"></label>
                                         <input asp-for="Email" placeholder="Email" class="form-control" />
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label asp-for="Street"></label>
+                                        <input asp-for="Street" placeholder="Street" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="Street" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label asp-for="City"></label>
+                                        <input asp-for="City" placeholder="City" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label asp-for="Country"></label>
+                                        <input asp-for="Country" placeholder="Country" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12">
                                     <div class="form-group">
                                         <label asp-for="formPhoto" class="col-form-label"></label>
                                         <div class="">
@@ -88,16 +121,16 @@
 
 
                             <!--
-                            -->
+    -->
 
                         </div>
-                        <!-- /.card-body -->
+                            <!-- /.card-body -->
 
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <a asp-action="ListOfUsers" asp-controller="Administration" class="btn btn-danger">Cancel</a>
-                        </div>
-                    </form>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <a asp-action="ListOfUsers" asp-controller="Administration" class="btn btn-danger">Cancel</a>
+                            </div>
+</form>
                 </div>
                 <!-- /.card -->
 

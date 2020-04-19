@@ -4,7 +4,11 @@
     ViewBag.Title = "List of Users";
     Layout = "_AdminLayout";
     var num = @TempData["numOfUsers"] == null ? 0 : @TempData["numOfUsers"];
-    
+    string em = "";
+    string ph = "";
+    string ci = "";
+    string co = "";
+    string lc = "";
 }
 
 <!-- Content Wrapper. Contains page content -->
@@ -36,9 +40,14 @@
                 <div class="row d-flex align-items-stretch">
                     @foreach (var singleUser in Model)
                     {
+                        em = singleUser.Email ?? "NULL";
+                        ci = singleUser.City ?? "NULL";
+                        co = singleUser.Country ?? "NULL";
+                        lc = $"{ci}, {co}";
+                        ph = singleUser.PhoneNumber ?? "NULL";
                         var photoPath = "~/images/"+(singleUser.Photo ?? "pix1.jpg");
 
-                        
+
                        <div class="col-12 col-sm-6 col-md-4">
                             <div class="card bg-light">
                                 <div class="card-header text-muted border-bottom-0">
@@ -49,10 +58,10 @@
                                         <div class="col-7">
                                             <h2 class="lead"><b>@singleUser.LastName @singleUser.FirstName</b></h2>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
-                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-envelope"></i></span> @singleUser.Email</li>
-                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-phone"></i></span> +234 8212 223 152</li>
+                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-envelope"></i></span> @em</li>
+                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-phone"></i></span> @ph</li>
                                                 <li class="small pt-1"><span class="fa-li"><i class="fas fa-briefcase"></i></span> Digital Strategist</li>
-                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-map-marker-alt"></i></span> Lagos, Nigeria</li>
+                                                <li class="small pt-1"><span class="fa-li"><i class="fas fa-map-marker-alt"></i></span> @lc</li>
                                             </ul>
                                         </div>
                                         <div class="col-5 text-center">

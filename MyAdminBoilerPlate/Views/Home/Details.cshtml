@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = Model.pageTitle;
     Layout = "../Administration/_AdminLayout";
-    //var photoPath = "~/images/" + (Model.user.Photo ?? "pix1.jpg");
+    var photoPath = "~/images/" + (Model.user.Photo ?? "pix1.jpg");
 }
 <div>
 
@@ -37,8 +37,7 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="../../dist/img/avatar.png"
-                                     alt="User profile picture">
+                                     src="@photoPath" alt="User profile picture" asp-append-version="true">
                             </div>
 
                             <h3 class="profile-username text-center"> @Model.user.LastName @Model.user.FirstName </h3>
@@ -54,9 +53,6 @@
                                 </li>
                                 <li class="list-group-item">
                                     <b><i class="fas fa-phone"></i> &nbsp; Phone : </b> <a class="float-right">@Model.user.PhoneNumber</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b><i class="fas fa-briefcase"></i> &nbsp; Job Description : </b> <a class="float-right">Digital Strategist</a>
                                 </li>
                             </ul>
                             @if (Model.user.Email == User.Identity.Name) { 
@@ -79,32 +75,33 @@
                             <strong><i class="fas fa-book mr-1"></i> Education</strong>
 
                             <p class="text-muted">
-                                B.S. in Computer Science from the University of Tennessee at Knoxville
+                                Not added yet!
                             </p>
 
                             <hr>
 
                             <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
 
-                            <p class="text-muted">Lagos, Nigeria</p>
+                            <p class="text-muted">@Model.user.City, @Model.user.Country</p>
 
                             <hr>
 
                             <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
 
                             <p class="text-muted">
-                                <span class="tag tag-danger">UI Design</span>
+                                @*<span class="tag tag-danger">UI Design</span>
                                 <span class="tag tag-success">Coding</span>
                                 <span class="tag tag-info">Javascript</span>
                                 <span class="tag tag-warning">PHP</span>
-                                <span class="tag tag-primary">Node.js</span>
+                                <span class="tag tag-primary">Node.js</span>*@
+                                None at the moment
                             </p>
 
                             <hr>
 
                             <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
 
-                            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                            <p class="text-muted">None at the moment</p>
                         </div>
                         <!-- /.card-body -->
                     </div>

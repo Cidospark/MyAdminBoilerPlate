@@ -260,6 +260,10 @@ namespace MyAdminBoilerPlate.Controllers
                 LastName = user.LastName,
                 FirstName = user.FirstName,
                 Email = user.Email,
+                Street = user.Street,
+                City = user.City,
+                Country = user.Country,
+                PhoneNumber = user.PhoneNumber,
                 ExistingPhotoPath = user.Photo,
                 Claims = userClaims.Where(x => x.Value == "true").Select(c => c.Type).ToList(),
                 Roles = userRoles
@@ -304,6 +308,10 @@ namespace MyAdminBoilerPlate.Controllers
                 user.Email = model.Email;
                 user.UserName = model.Email;
                 user.Photo = uniqueFilename;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Street = model.Street;
+                user.City = model.City;
+                user.Country = model.Country;
 
                 var result = await userManager.UpdateAsync(user);
                 if (result.Succeeded)
