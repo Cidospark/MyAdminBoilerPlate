@@ -1,23 +1,40 @@
 ﻿@{
     ViewBag.Title = "Error stack trace";
-    Layout = null;
+    Layout = "../Account/_AccountLayout";
 }
 
-@if (ViewBag.ErrorTitle == null)
-{
-    <h3>
-        An error occured while processing your request. The support team is notified
-        and we are working on the fix
-    </h3>
-    <h5>
-        Please contact us on sample@sample.com
-    </h5>
-}
-else
-{
-    <h3>@ViewBag.ErrorTitle</h3>
-    <hr/>
-    @ViewBag.ErrorMessage
-    <br/><br/>
-    <div><a href="#" onclick="window.history.back()">Back</a></div>
-}
+<div class="login-box">
+    <div class="s-logo">
+        <a href="#"><b> Admin </b> BoilerP</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <center>
+                @if (ViewBag.ErrorTitle == null)
+                {
+                    <p>
+                        <i class="fa fa-3x fa-exclamation-triangle text-warning"></i>
+                    </p>
+                    <h5 class="text-teal">
+                        An error occured while processing your request. The support team is notified
+                        and we are working on the fix
+                    </h5>
+                    <h5>
+                        Please contact us on sample@sample.com
+                    </h5>
+                }
+                else
+                {
+                    <h3 class="text-teal">@ViewBag.ErrorTitle</h3>
+                    <hr />
+                    @ViewBag.ErrorMessage
+                    <br /><br />
+                    <div><i class="fa fa-arrow-left text-primary"></i> <a href="#" onclick="window.history.back()">Back</a></div>
+                }
+
+            </center>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>

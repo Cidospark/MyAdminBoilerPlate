@@ -221,7 +221,8 @@ namespace MyAdminBoilerPlate.Controllers
                     //await signInManager.SignInAsync(user, isPersistent: false);
                     //return RedirectToAction("ListOfUsers", "Administration");
                     ViewBag.ErrorTitle = "Registration successful";
-                    ViewBag.ErrorMessage = "Before you can Login, please confirm ypur email, by clicking on the confirmation link we have emailed you";
+                    ViewBag.ErrorMessage = "Before you can Login, please confirm your email, by clicking on the confirmation link we have emailed you on the email" +
+                        " address you provided to us. Thank you";
                     return View("Error");
                 }
 

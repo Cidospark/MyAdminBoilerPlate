@@ -1,1 +1,24 @@
-﻿Thank you for confirming your email
+﻿@{
+    ViewBag.Title = "Email Confirmation";
+    Layout = "../Account/_AccountLayout";
+}
+
+
+<div class="login-box">
+    <div class="s-logo">
+        <a href="#"><b> Admin </b> BoilerP</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <center>
+                <h4 class="text-teal">@ViewBag.Title Successful!</h4>
+                <hr />
+                <i class="fa fa-check-circle text-teal m-3" style="font-size:70px;"></i>
+                <div class="login-box-msg text-teal">Thank you for confirming your email</div>
+                <div><a asp-action="Login" asp-controller="Account">Login</a> <i class="fa fa-arrow-right text-primary"></i></div>
+            </center>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
