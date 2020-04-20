@@ -87,11 +87,11 @@
                         <img src="@profilePhoto" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">
+                        <a  asp-action="Details" asp-controller="Administration" asp-route-id="@userManager.GetUserId(User)" class="d-block">
                             @if (signInManager.IsSignedIn(User))
                             {
                                 <span>
-                                    <span asp-action="Details" asp-controller="Home" asp-route-id="@userManager.GetUserId(User)">
+                                    <span>
                                         @userManager.GetUserAsync(User).Result.LastName
                                         @userManager.GetUserAsync(User).Result.FirstName
                                     </span>
@@ -106,7 +106,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a asp-action="Dashboard" asp-controller="Administration" asp-route-id="@userManager.GetUserId(User)" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -114,7 +114,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-action="Details" asp-controller="Home" asp-route-id="@userManager.GetUserId(User)" class="nav-link">
+                            <a asp-action="Details" asp-controller="Administration" asp-route-id="@userManager.GetUserId(User)" class="nav-link">
                                 <i class="nav-icon fas fa-user-tie"></i>
                                 <p>
                                     Profile

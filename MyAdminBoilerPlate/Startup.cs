@@ -104,12 +104,6 @@ namespace MyAdminBoilerPlate
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
-            // FileServerOptions combines the functionality of:
-            // useDefaultFiles, useStaticFiles, directoryBrowser middleware.
-            DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
-            defaultFilesOptions.DefaultFileNames.Clear();
-            defaultFilesOptions.DefaultFileNames.Add("foo.html");
-            app.UseDefaultFiles(defaultFilesOptions);
             app.UseStaticFiles();
             app.UseAuthentication();
 
@@ -121,7 +115,6 @@ namespace MyAdminBoilerPlate
             app.Run(async (context) =>
             {
                 // the below error will never run except if a default file is not found
-                throw new Exception("Some error occured during processing");
                 await context.Response.WriteAsync("Hello World!");
             });
         }

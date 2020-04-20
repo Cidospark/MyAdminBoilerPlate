@@ -22,15 +22,24 @@ namespace MyAdminBoilerPlate.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager;
         private readonly ILogger<AdministrationController> logger;
+        private readonly IUserRepository userRepository;
 
         // constructor inject role manager
-        public AdministrationController(RoleManager<IdentityRole> roleManager, 
+        public AdministrationController(IUserRepository userRepository, RoleManager<IdentityRole> roleManager, 
                                         UserManager<ApplicationUser> userManager,
                                         ILogger<AdministrationController> logger)
         {
+            this.userRepository = userRepository;
             this.roleManager = roleManager;
             this.userManager = userManager;
             this.logger = logger;
+        }
+
+        // dashboard
+        [HttpGet]
+        public IActionResult Dashboard()
+        {
+            return View();
         }
 
         // manage user claims action method
@@ -215,6 +224,36 @@ namespace MyAdminBoilerPlate.Controllers
                 }
             }
         }
+
+        // User Details
+        [HttpGet]
+        public IActionResult Details(string Id)
+        {
+            string pg = "User's Details";
+            ApplicationUser user = userRepository.GetUser(Id);
+
+            // to handle 404 errors for un-known id
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {Id} cannot be found";
+                return View("NotFound");
+            }
+
+            if (userManager.GetUserId(User).Equals(Id))
+            {
+                pg = "Your Profile";
+            }
+
+
+            HomeDetailsViewModel hdvm = new HomeDetailsViewModel()
+            {
+                pageTitle = pg,
+                user = user
+            };
+
+            return View(hdvm);
+        }
+
 
         // goto role view
         [HttpGet]

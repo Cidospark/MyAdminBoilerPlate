@@ -399,7 +399,7 @@ namespace MyAdminBoilerPlate.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("ListOfUsers", "Administration");
+                        return RedirectToAction("Dashboard", "Administration");
                     }
                 }
 
